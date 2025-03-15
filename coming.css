@@ -1,0 +1,342 @@
+body {
+    font-family: 'Lilita One', sans-serif;
+    background: url('https://i.imgur.com/bgHB12n.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.event-card {
+    width: 100%;
+    max-width: 600px;
+    min-height: 400px;
+    background: url('https://i.imgur.com/eBhpj0m.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+h1 {
+    margin: 0;
+    color: #333;
+    font-size: 24px;
+    line-height: 1.2;
+}
+
+.event-content {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.event-header {
+    width: 100%;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-family: 'Lilita One', sans-serif;
+    box-sizing: border-box;
+    background: #f9f9f9;
+    cursor: pointer;
+}
+
+.event-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.game-mode {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#gameModeName {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.map-info {
+    color: #666;
+    font-size: 14px;
+}
+
+.event-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px; /* Зменшено з 15px для економії простору */
+    /* Прибрано flex-wrap: wrap; */
+}
+
+.map-container {
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    display: inline-block;
+    flex-shrink: 0; /* Запобігає стисканню */
+}
+
+.map-thumbnail {
+    width: 150px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.brawler-stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    flex-grow: 1;
+    min-width: 0; /* Дозволяє стискатися, якщо потрібно */
+}
+
+.stats-column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 48%;
+}
+
+.stat-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.stat-brawler-img-container {
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    background: #f5f5f5;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.stat-brawler-img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.stat-winrate {
+    font-family: 'Lilita One', sans-serif;
+    background: #f5f5f5;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.event-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+.banner-container {
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.game-mode-banner {
+    width: 100%;
+    max-height: 120px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.flag-counter-container {
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.flag-counter {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.flag-counter img {
+    max-width: 100%;
+    height: auto;
+}
+
+.discord-btn {
+    display: inline-block;
+    background-color: #7289DA;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 16px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    align-self: center;
+}
+
+.discord-btn:hover {
+    background-color: #5B6EAE;
+}
+
+.timer-icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+/* Медіа-запити для адаптивності */
+@media screen and (max-width: 600px) {
+    .event-card {
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    select {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    #gameModeName {
+        font-size: 18px;
+    }
+
+    .map-container {
+        padding: 8px;
+    }
+
+    .map-thumbnail {
+        width: 100px; /* Зменшено для малих екранів */
+        height: auto;
+    }
+
+    .brawler-stats {
+        min-width: 0; /* Дозволяє стискатися */
+    }
+
+    .stats-column {
+        width: 48%; /* Залишаємо два стовпці */
+    }
+
+    .stat-brawler-img-container {
+        padding: 4px;
+    }
+
+    .stat-brawler-img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .stat-winrate {
+        font-size: 12px;
+    }
+
+    .banner-container {
+        padding: 8px;
+    }
+
+    .game-mode-banner {
+        max-height: 100px;
+    }
+
+    .flag-counter-container {
+        padding: 8px;
+    }
+
+    .discord-btn {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    .timer-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .event-row {
+        flex-direction: row; /* Залишаємо горизонтально */
+        gap: 5px; /* Ще менший зазор */
+    }
+
+    .map-container {
+        padding: 5px;
+    }
+
+    .map-thumbnail {
+        width: 80px; /* Ще менший розмір для дуже малих екранів */
+    }
+
+    .stat-brawler-img-container {
+        padding: 3px;
+    }
+
+    .stat-brawler-img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .stat-winrate {
+        padding: 2px 4px;
+        font-size: 10px;
+    }
+
+    .banner-container {
+        padding: 5px;
+    }
+
+    .flag-counter-container {
+        padding: 5px;
+    }
+
+    .timer-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
