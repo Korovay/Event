@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next Events</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="nextevent.css">
+    <link rel="icon" type="image/png" href="https://i.imgur.com/l1Yej3M.png">
+</head>
+<body>
+    <div class="container">
+        <div class="event-card">
+            <h1>Upcoming Events:</h1>
+            <div class="event-content">
+                <div class="event-header">
+                    <select id="eventSelect" onchange="updateEvent()">
+                        <!-- Options will be added via JavaScript -->
+                    </select>
+                </div>
+                <div class="event-info">
+                    <div class="game-mode">
+                        <span id="gameModeName"></span>
+                        <div class="map-info">
+                            Map: <span id="mapName"></span>
+                        </div>
+                    </div>
+                    <div class="event-row">
+                        <div class="map-container">
+                            <img id="mapThumbnail" class="map-thumbnail" alt="Map Thumbnail">
+                        </div>
+                        <div class="brawler-stats" id="brawlerStats">
+                            <div class="stats-column">
+                                <div class="stat-row">
+                                    <div class="stat-brawler-img-container">
+                                        <img class="stat-brawler-img" src="" alt="Brawler">
+                                    </div>
+                                    <span class="stat-winrate">60%</span>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="stat-brawler-img-container">
+                                        <img class="stat-brawler-img" src="" alt="Brawler">
+                                    </div>
+                                    <span class="stat-winrate">60%</span>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="stat-brawler-img-container">
+                                        <img class="stat-brawler-img" src="" alt="Brawler">
+                                    </div>
+                                    <span class="stat-winrate">60%</span>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="stat-brawler-img-container">
+                                        <img class="stat-brawler-img" src="" alt="Brawler">
+                                    </div>
+                                    <span class="stat-winrate">60%</span>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="stat-brawler-img-container">
+                                        <img class="stat-brawler-img" src="" alt="Brawler">
+                                    </div>
+                                    <span class="stat-winrate">60%</span>
+                                </div>
+                            </div>
+                            <div class="stats-column">
+                                <div class="stat-row">
+                                    <div class="stat-brawler-img-container">
+                                        <img class="stat-brawler-img" src="" alt="Brawler">
+                                    </div>
+                                    <span class="stat-winrate">60%</span>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="stat-brawler-img-container">
+                                        <img class="stat-brawler-img" src="" alt="Brawler">
+                                    </div>
+                                    <span class="stat-winrate">60%</span>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="stat-brawler-img-container">
+                                        <img class="stat-brawler-img" src="" alt="Brawler">
+                                    </div>
+                                    <span class="stat-winrate">60%</span>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="stat-brawler-img-container">
+                                        <img class="stat-brawler-img" src="" alt="Brawler">
+                                    </div>
+                                    <span class="stat-winrate">60%</span>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="stat-brawler-img-container">
+                                        <img class="stat-brawler-img" src="" alt="Brawler">
+                                    </div>
+                                    <span class="stat-winrate">60%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <span class="label">Time Until Start:</span>
+                            <span id="timeUntilStart">
+                                <img src="https://s6.gifyu.com/images/bbrI7.gif" class="timer-icon" alt="Timer Icon">
+                            </span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Event Date:</span>
+                            <span id="eventDate"></span>
+                        </div>
+                    </div>
+                    <div class="banner-container">
+                        <img id="gameModeBanner" class="game-mode-banner" alt="Game Mode Banner">
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <!-- Flag Counter -->
+                    <div class="flag-counter-container">
+                        <a href="https://info.flagcounter.com/vqAT" class="flag-counter">
+                            <img src="https://s05.flagcounter.com/count2/vqAT/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_20/viewers_0/labels_0/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0">
+                        </a>
+                    </div>
+                </div>
+                <a href="https://discord.gg/QMK6YAZ2UQ" class="discord-btn">Join Discord</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="nextevent.js"></script>
+</body>
+</html>
