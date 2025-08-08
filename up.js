@@ -1,5 +1,6 @@
 const colors = ['#DAF7A6', '#DAA520', '#FFE4E1', '#B0C4DE', '#DA70D6'];
-let eventsData = [];
+let eventsData = { active: [], upcoming: [] };
+let isShowingCurrent = false;
 
 // Функція для отримання часу в Україні (UTC+2 взимку, UTC+3 влітку)
 function getUkraineTime() {
@@ -12,10 +13,10 @@ function getUkraineTime() {
     return new Date(utcTime + ukraineOffset);
 }
 
-function getTimeUntilStart(startTime) {
+function getTimeUntilStart(startTime, isCurrent = false) {
     const now = getUkraineTime();
     const start = new Date(startTime);
-    const diff = start - now;
+    const diff = isCurrent ? now - start : start - now;
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     return `${hours}h ${minutes}min`;
@@ -68,16 +69,18 @@ function formatBrawlerStats(stats) {
     `;
 }
 
-function updateEventDisplay(event, color) {
+function updateEventDisplay(event, color, isCurrent = false) {
     document.getElementById('gameModeName').textContent = event.map.gameMode.name;
     document.getElementById('mapName').textContent = event.map.name;
     document.getElementById('mapThumbnail').src = `https://cdn.brawlify.com/maps/regular/${event.map.id}.png`;
     document.getElementById('brawlerStats').innerHTML = formatBrawlerStats(event.map.stats);
     document.getElementById('timeUntilStart').innerHTML = 
-        '<img src="https://s6.gifyu.com/images/bbrI7.gif" class="timer-icon" alt="Timer Icon"> ' + getTimeUntilStart(event.startTime);
+        '<img src="https://s6.gifyu.com/images/bbrI7.gif" class="timer-icon" alt="Timer Icon"> ' + 
+        getTimeUntilStart(event.startTime, isCurrent);
     document.getElementById('eventDate').textContent = formatDate(event.startTime);
     document.getElementById('gameModeBanner').src = `https://cdn-misc.brawlify.com/gamemode/header/${event.map.gameMode.hash}.png`;
-    document.querySelector('.event-card').style.border = `5px solid ${color}`; // Оновлено на border
+    document.querySelector('.event-card').style.border = `5px solid ${color}`;
+    document.getElementById('toggleButton').textContent = isCurrent ? 'Наступні' : 'Поточні';
 }
 
 async function fetchEvents() {
@@ -91,12 +94,21 @@ async function fetchEvents() {
         const now = getUkraineTime();
         console.log('Поточний час в Україні:', now.toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' }));
 
+        const activeEvents = data.active || [];
         const upcomingEvents = data.upcoming || [];
 
-        if (!Array.isArray(upcomingEvents) || upcomingEvents.length === 0) {
-            console.log('Немає майбутніх подій у upcoming або дані не є масивом');
-            return [];
+        if (!Array.isArray(activeEvents) || !Array.isArray(upcomingEvents)) {
+            console.log('Дані active або upcoming не є масивами');
+            return { active: [], upcoming: [] };
         }
+
+        const filteredActiveEvents = activeEvents.filter(event => {
+            const start = new Date(event.startTime);
+            const end = new Date(event.endTime);
+            const isActive = now >= start && now <= end;
+            console.log(`Подія: ${event.map.gameMode.name} - ${event.map.name}, Start: ${start.toISOString()}, End: ${end.toISOString()}, Активна: ${isActive}`);
+            return isActive;
+        });
 
         const filteredUpcomingEvents = upcomingEvents.filter(event => {
             const start = new Date(event.startTime);
@@ -105,8 +117,9 @@ async function fetchEvents() {
             return isUpcoming;
         });
 
+        console.log('Фільтровані активні події:', JSON.stringify(filteredActiveEvents, null, 2));
         console.log('Фільтровані майбутні події:', JSON.stringify(filteredUpcomingEvents, null, 2));
-        return filteredUpcomingEvents;
+        return { active: filteredActiveEvents, upcoming: filteredUpcomingEvents };
     } catch (error) {
         console.error('Помилка завантаження подій:', error.message);
         if (error.response) {
@@ -117,20 +130,20 @@ async function fetchEvents() {
         } else {
             console.error('Помилка конфігурації:', error.message);
         }
-        return [];
+        return { active: [], upcoming: [] };
     }
 }
 
-function updateEventSelect(select, events) {
-    console.log('Оновлюємо select з подіями:', events.length);
+function updateEventSelect(select, events, isCurrent) {
+    console.log(`Оновлюємо select з подіями (${isCurrent ? 'активні' : 'майбутні'}):`, events.length);
     console.log('Події, передані в select:', JSON.stringify(events, null, 2));
-    let optionsHTML = '<option value="" disabled selected>Choose Event:</option>';
+    let optionsHTML = `<option value="" disabled selected>Виберіть подію (${isCurrent ? 'Поточні' : 'Наступні'}):</option>`;
     
     if (events.length === 0) {
-        optionsHTML += '<option value="">Немає майбутніх подій</option>';
+        optionsHTML += `<option value="">Немає ${isCurrent ? 'активних' : 'майбутніх'} подій</option>`;
     } else {
         optionsHTML += events.map((event, index) => `
-            <option value="${index}">
+            <option value="${isCurrent ? 'current' : 'upcoming'}_${index}">
                 ${event.map.gameMode.name} - ${event.map.name}
             </option>
         `).join('');
@@ -142,76 +155,112 @@ function updateEventSelect(select, events) {
 
 async function loadEvents() {
     const select = document.getElementById('eventSelect');
+    const toggleButton = document.getElementById('toggleButton');
 
     eventsData = await fetchEvents();
-    console.log('Завантажено подій у eventsData:', eventsData.length);
+    console.log('Завантажено подій:', eventsData);
 
-    if (eventsData.length === 0) {
-        updateEventSelect(select, eventsData);
-        document.getElementById('gameModeName').textContent = 'Немає майбутніх подій';
+    if (eventsData.active.length === 0 && eventsData.upcoming.length === 0) {
+        updateEventSelect(select, [], isShowingCurrent);
+        document.getElementById('gameModeName').textContent = 'Немає подій';
         document.getElementById('mapName').textContent = '';
         document.getElementById('mapThumbnail').src = '';
         document.getElementById('brawlerStats').innerHTML = '';
         document.getElementById('timeUntilStart').textContent = 'Очікуємо нові події';
         document.getElementById('eventDate').textContent = '';
         document.getElementById('gameModeBanner').src = '';
-        document.querySelector('.event-card').style.border = `5px solid #ccc`; // Оновлено на border
+        document.querySelector('.event-card').style.border = `5px solid #ccc`;
+        toggleButton.textContent = 'Поточні';
     } else {
-        updateEventSelect(select, eventsData);
-        const initialColor = colors[Math.floor(Math.random() * colors.length)];
-        updateEventDisplay(eventsData[0], initialColor);
+        const events = isShowingCurrent ? eventsData.active : eventsData.upcoming;
+        updateEventSelect(select, events, isShowingCurrent);
+        if (events.length > 0) {
+            const initialColor = colors[Math.floor(Math.random() * colors.length)];
+            updateEventDisplay(events[0], initialColor, isShowingCurrent);
+        }
     }
 
     select.addEventListener('change', () => {
-        const selectedIndex = parseInt(select.value);
-        if (selectedIndex >= 0 && selectedIndex < eventsData.length) {
-            const selectedEvent = eventsData[selectedIndex];
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            updateEventDisplay(selectedEvent, color);
+        const value = select.value;
+        if (value) {
+            const [eventType, selectedIndex] = value.split('_');
+            const events = eventType === 'current' ? eventsData.active : eventsData.upcoming;
+            const index = parseInt(selectedIndex);
+            if (index >= 0 && index < events.length) {
+                const selectedEvent = events[index];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                updateEventDisplay(selectedEvent, color, eventType === 'current');
 
-            if (selectedIndex !== 0) {
-                setTimeout(() => {
-                    select.value = '';
-                    const resetColor = colors[Math.floor(Math.random() * colors.length)];
-                    updateEventDisplay(eventsData[0], resetColor);
-                }, 60000);
+                if (index !== 0) {
+                    setTimeout(() => {
+                        select.value = '';
+                        const resetEvents = isShowingCurrent ? eventsData.active : eventsData.upcoming;
+                        if (resetEvents.length > 0) {
+                            const resetColor = colors[Math.floor(Math.random() * colors.length)];
+                            updateEventDisplay(resetEvents[0], resetColor, isShowingCurrent);
+                        }
+                    }, 60000);
+                }
             }
         }
     });
 
-    setInterval(async () => {
-        const previousEventsCount = eventsData.length;
-        eventsData = await fetchEvents();
-        console.log('Оновлено подій у eventsData:', eventsData.length);
-
-        if (eventsData.length === 0) {
-            updateEventSelect(select, eventsData);
-            document.getElementById('gameModeName').textContent = 'Немає майбутніх подій';
+    toggleButton.addEventListener('click', async () => {
+        isShowingCurrent = !isShowingCurrent;
+        const events = isShowingCurrent ? eventsData.active : eventsData.upcoming;
+        updateEventSelect(select, events, isShowingCurrent);
+        if (events.length > 0) {
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            updateEventDisplay(events[0], color, isShowingCurrent);
+        } else {
+            document.getElementById('gameModeName').textContent = `Немає ${isShowingCurrent ? 'активних' : 'майбутніх'} подій`;
             document.getElementById('mapName').textContent = '';
             document.getElementById('mapThumbnail').src = '';
             document.getElementById('brawlerStats').innerHTML = '';
             document.getElementById('timeUntilStart').textContent = 'Очікуємо нові події';
             document.getElementById('eventDate').textContent = '';
             document.getElementById('gameModeBanner').src = '';
-            document.querySelector('.event-card').style.border = `5px solid #ccc`; // Оновлено на border
+            document.querySelector('.event-card').style.border = `5px solid #ccc`;
+        }
+    });
+
+    setInterval(async () => {
+        const previousEventsCount = eventsData.active.length + eventsData.upcoming.length;
+        eventsData = await fetchEvents();
+        console.log('Оновлено подій:', eventsData);
+
+        const events = isShowingCurrent ? eventsData.active : eventsData.upcoming;
+        const currentSelectedValue = select.value;
+        let currentSelectedIndex = -1;
+
+        if (currentSelectedValue) {
+            const [, index] = currentSelectedValue.split('_');
+            currentSelectedIndex = parseInt(index);
+        }
+
+        updateEventSelect(select, events, isShowingCurrent);
+
+        if (events.length === 0) {
+            document.getElementById('gameModeName').textContent = `Немає ${isShowingCurrent ? 'активних' : 'майбутніх'} подій`;
+            document.getElementById('mapName').textContent = '';
+            document.getElementById('mapThumbnail').src = '';
+            document.getElementById('brawlerStats').innerHTML = '';
+            document.getElementById('timeUntilStart').textContent = 'Очікуємо нові події';
+            document.getElementById('eventDate').textContent = '';
+            document.getElementById('gameModeBanner').src = '';
+            document.querySelector('.event-card').style.border = `5px solid #ccc`;
+        } else if (currentSelectedIndex >= events.length || currentSelectedIndex < 0) {
+            select.value = '';
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            updateEventDisplay(events[0], color, isShowingCurrent);
         } else {
-            const currentSelectedIndex = parseInt(select.value) || -1;
+            select.value = `${isShowingCurrent ? 'current' : 'upcoming'}_${currentSelectedIndex}`;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            updateEventDisplay(events[currentSelectedIndex], color, isShowingCurrent);
+        }
 
-            updateEventSelect(select, eventsData);
-
-            if (currentSelectedIndex >= eventsData.length || currentSelectedIndex < 0) {
-                select.value = '';
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                updateEventDisplay(eventsData[0], color);
-            } else {
-                select.value = currentSelectedIndex.toString();
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                updateEventDisplay(eventsData[currentSelectedIndex], color);
-            }
-
-            if (previousEventsCount !== eventsData.length) {
-                console.log(`Кількість подій змінилася: було ${previousEventsCount}, стало ${eventsData.length}`);
-            }
+        if (previousEventsCount !== (eventsData.active.length + eventsData.upcoming.length)) {
+            console.log(`Кількість подій змінилася: було ${previousEventsCount}, стало ${eventsData.active.length + eventsData.upcoming.length}`);
         }
     }, 60000);
 }
