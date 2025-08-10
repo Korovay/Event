@@ -83,8 +83,8 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
     background-color: rgba(255, 255, 255, 0.3); /* Напівпрозорий білий фон */
     border-radius: 50%; /* Кругла форма */
     position: relative;
