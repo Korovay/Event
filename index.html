@@ -22,6 +22,11 @@
         .detail-item .label {
             margin-right: 10px;
         }
+        .event-details-row {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -116,15 +121,17 @@
                         </div>
                     </div>
                     <div class="event-details">
-                        <div class="detail-item">
-                            <span class="label">Time Until Start:</span>
-                            <span id="timeUntilStart">
-                                <img src="https://s6.gifyu.com/images/bbrI7.gif" class="timer-icon" alt="Timer Icon">
-                            </span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="label">Event Date:</span>
-                            <span id="eventDate"></span>
+                        <div class="event-details-row">
+                            <div class="detail-item">
+                                <span class="label">Time Until Start:</span>
+                                <span id="timeUntilStart">
+                                    <img src="https://s6.gifyu.com/images/bbrI7.gif" class="timer-icon" alt="Timer Icon">
+                                </span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Event Date:</span>
+                                <span id="eventDate"></span>
+                            </div>
                         </div>
                     </div>
                     <div class="banner-container">
