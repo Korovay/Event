@@ -77,7 +77,7 @@ function updateEventDisplay(event, color) {
         '<img src="https://s6.gifyu.com/images/bbrI7.gif" class="timer-icon" alt="Timer Icon"> ' + getTimeUntilStart(event.startTime);
     document.getElementById('eventDate').textContent = formatDate(event.startTime);
     document.getElementById('gameModeBanner').src = `https://cdn-misc.brawlify.com/gamemode/header/${event.map.gameMode.hash}.png`;
-    document.querySelector('.event-card').style.border = `5px solid ${color}`; // Оновлено на border
+    document.querySelector('.event-card').style.border = `5px solid ${color}`;
 }
 
 async function fetchEvents() {
@@ -121,33 +121,35 @@ async function fetchEvents() {
     }
 }
 
-function updateEventSelect(select, events) {
+function updateEventSelect(selectList, events) {
     console.log('Оновлюємо select з подіями:', events.length);
     console.log('Події, передані в select:', JSON.stringify(events, null, 2));
-    let optionsHTML = '<option value="" disabled selected>Choose Event:</option>';
+    let optionsHTML = '';
     
     if (events.length === 0) {
-        optionsHTML += '<option value="">Немає майбутніх подій</option>';
+        optionsHTML = '<li data-value="">Немає майбутніх подій</li>';
     } else {
-        optionsHTML += events.map((event, index) => `
-            <option value="${index}">
+        optionsHTML = events.map((event, index) => `
+            <li data-value="${index}">
+                <img src="https://cdn.brawlify.com/game-modes/regular/${event.map.gameMode.id}.png" alt="${event.map.gameMode.name} icon" onerror="this.src='https://cdn.brawlify.com/game-modes/regular/48000000.png'">
                 ${event.map.gameMode.name} - ${event.map.name}
-            </option>
+            </li>
         `).join('');
     }
     
-    select.innerHTML = optionsHTML;
+    selectList.innerHTML = optionsHTML;
     console.log('Згенерований HTML для select:', optionsHTML);
 }
 
 async function loadEvents() {
-    const select = document.getElementById('eventSelect');
+    const selectList = document.getElementById('eventSelectList');
+    const selectSelected = document.querySelector('.select-selected');
 
     eventsData = await fetchEvents();
     console.log('Завантажено подій у eventsData:', eventsData.length);
 
     if (eventsData.length === 0) {
-        updateEventSelect(select, eventsData);
+        updateEventSelect(selectList, eventsData);
         document.getElementById('gameModeName').textContent = 'Немає майбутніх подій';
         document.getElementById('mapName').textContent = '';
         document.getElementById('mapThumbnail').src = '';
@@ -155,27 +157,53 @@ async function loadEvents() {
         document.getElementById('timeUntilStart').textContent = 'Очікуємо нові події';
         document.getElementById('eventDate').textContent = '';
         document.getElementById('gameModeBanner').src = '';
-        document.querySelector('.event-card').style.border = `5px solid #ccc`; // Оновлено на border
+        document.querySelector('.event-card').style.border = `5px solid #ccc`;
+        selectSelected.textContent = 'Немає майбутніх подій';
     } else {
-        updateEventSelect(select, eventsData);
+        updateEventSelect(selectList, eventsData);
         const initialColor = colors[Math.floor(Math.random() * colors.length)];
         updateEventDisplay(eventsData[0], initialColor);
+        selectSelected.innerHTML = `
+            <img src="https://cdn.brawlify.com/game-modes/regular/${eventsData[0].map.gameMode.id}.png" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://cdn.brawlify.com/game-modes/regular/48000000.png'">
+            ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
+        `;
     }
 
-    select.addEventListener('change', () => {
-        const selectedIndex = parseInt(select.value);
-        if (selectedIndex >= 0 && selectedIndex < eventsData.length) {
-            const selectedEvent = eventsData[selectedIndex];
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            updateEventDisplay(selectedEvent, color);
+    // Toggle dropdown visibility
+    selectSelected.addEventListener('click', () => {
+        selectList.style.display = selectList.style.display === 'none' ? 'block' : 'none';
+    });
 
-            if (selectedIndex !== 0) {
-                setTimeout(() => {
-                    select.value = '';
-                    const resetColor = colors[Math.floor(Math.random() * colors.length)];
-                    updateEventDisplay(eventsData[0], resetColor);
-                }, 60000);
-            }
+    // Handle option selection
+    selectList.addEventListener('click', (e) => {
+        const li = e.target.closest('li');
+        if (!li) return;
+        const selectedIndex = li.getAttribute('data-value');
+        if (selectedIndex === '') return;
+
+        selectSelected.innerHTML = li.innerHTML;
+        selectList.style.display = 'none';
+
+        const selectedEvent = eventsData[selectedIndex];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        updateEventDisplay(selectedEvent, color);
+
+        if (selectedIndex !== '0') {
+            setTimeout(() => {
+                selectSelected.innerHTML = `
+                    <img src="https://cdn.brawlify.com/game-modes/regular/${eventsData[0].map.gameMode.id}.png" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://cdn.brawlify.com/game-modes/regular/48000000.png'">
+                    ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
+                `;
+                const resetColor = colors[Math.floor(Math.random() * colors.length)];
+                updateEventDisplay(eventsData[0], resetColor);
+            }, 60000);
+        }
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.custom-select')) {
+            selectList.style.display = 'none';
         }
     });
 
@@ -185,7 +213,7 @@ async function loadEvents() {
         console.log('Оновлено подій у eventsData:', eventsData.length);
 
         if (eventsData.length === 0) {
-            updateEventSelect(select, eventsData);
+            updateEventSelect(selectList, eventsData);
             document.getElementById('gameModeName').textContent = 'Немає майбутніх подій';
             document.getElementById('mapName').textContent = '';
             document.getElementById('mapThumbnail').src = '';
@@ -193,20 +221,32 @@ async function loadEvents() {
             document.getElementById('timeUntilStart').textContent = 'Очікуємо нові події';
             document.getElementById('eventDate').textContent = '';
             document.getElementById('gameModeBanner').src = '';
-            document.querySelector('.event-card').style.border = `5px solid #ccc`; // Оновлено на border
+            document.querySelector('.event-card').style.border = `5px solid #ccc`;
+            selectSelected.textContent = 'Немає майбутніх подій';
         } else {
-            const currentSelectedIndex = parseInt(select.value) || -1;
+            updateEventSelect(selectList, eventsData);
+            const currentSelected = selectSelected.textContent.trim();
+            let currentIndex = -1;
+            eventsData.forEach((event, index) => {
+                if (`${event.map.gameMode.name} - ${event.map.name}` === currentSelected) {
+                    currentIndex = index;
+                }
+            });
 
-            updateEventSelect(select, eventsData);
-
-            if (currentSelectedIndex >= eventsData.length || currentSelectedIndex < 0) {
-                select.value = '';
+            if (currentIndex >= eventsData.length || currentIndex < 0) {
+                selectSelected.innerHTML = `
+                    <img src="https://cdn.brawlify.com/game-modes/regular/${eventsData[0].map.gameMode.id}.png" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://cdn.brawlify.com/game-modes/regular/48000000.png'">
+                    ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
+                `;
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 updateEventDisplay(eventsData[0], color);
             } else {
-                select.value = currentSelectedIndex.toString();
+                selectSelected.innerHTML = `
+                    <img src="https://cdn.brawlify.com/game-modes/regular/${eventsData[currentIndex].map.gameMode.id}.png" alt="${eventsData[currentIndex].map.gameMode.name} icon" onerror="this.src='https://cdn.brawlify.com/game-modes/regular/48000000.png'">
+                    ${eventsData[currentIndex].map.gameMode.name} - ${eventsData[currentIndex].map.name}
+                `;
                 const color = colors[Math.floor(Math.random() * colors.length)];
-                updateEventDisplay(eventsData[currentSelectedIndex], color);
+                updateEventDisplay(eventsData[currentIndex], color);
             }
 
             if (previousEventsCount !== eventsData.length) {
