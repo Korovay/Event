@@ -336,6 +336,19 @@ h1 {
     vertical-align: middle;
 }
 
+.spike-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.spike-icon {
+    width: 112px;
+    height: 212px;
+    object-fit: contain;
+}
+
 /* Медіа-запити для адаптивності */
 @media screen and (max-width: 600px) {
     .event-card {
@@ -424,6 +437,11 @@ h1 {
     #eventDate {
         font-size: 12px;
     }
+
+    .spike-icon {
+        width: 80px;
+        height: 150px;
+    }
 }
 
 @media screen and (max-width: 400px) {
@@ -486,5 +504,10 @@ h1 {
     #timeUntilStart,
     #eventDate {
         font-size: 10px;
+    }
+
+    .spike-icon {
+        width: 60px;
+        height: 113px;
     }
 }
