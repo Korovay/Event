@@ -1,15 +1,38 @@
 const colors = ['#DAF7A6', '#DAA520', '#FFE4E1', '#B0C4DE', '#DA70D6'];
 let eventsData = [];
 
-// Функція для отримання часу до початку (використовуємо універсальний час)
-function getTimeUntilStart(startTime) {
-    const now = new Date(); // Універсальний поточний час
+// Функція для отримання часу в Україні (UTC+2 взимку, UTC+3 влітку)
+function getUkraineTime() {
+    const now = new Date();
+    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const year = now.getFullYear();
+    const dstStart = new Date(Date.UTC(year, 2, 31 - ((5 + new Date(year, 2, 31).getDay()) % 7), 1, 0, 0));
+    const dstEnd = new Date(Date.UTC(year, 9, 31 - ((5 + new Date(year, 9, 31).getDay()) % 7), 1, 0, 0));
+    const ukraineOffset = (now >= dstStart && now < dstEnd ? 3 : 2) * 60 * 60 * 1000;
+    return new Date(utcTime + ukraineOffset);
+}
+
+function getTimeUntilStart(startTime, endTime) {
+    const now = getUkraineTime();
     const start = new Date(startTime);
-    const diff = start - now;
-    if (diff < 0) return 'Вже розпочато'; // На випадок, якщо API помилився
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    return `${hours}h ${minutes}min`;
+    const end = new Date(endTime);
+    
+    if (now >= start && now <= end) {
+        // Подія активна, показуємо тривалість
+        const duration = now - start;
+        const hours = Math.floor(duration / (1000 * 60 * 60));
+        const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+        return `Триває: ${hours}г ${minutes}хв`;
+    } else if (start > now) {
+        // Подія ще не почалася, показуємо час до початку
+        const diff = start - now;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        return `До початку: ${hours}г ${minutes}хв`;
+    } else {
+        // Подія закінчилася
+        return 'Подія закінчилася';
+    }
 }
 
 function formatDate(date) {
@@ -59,15 +82,16 @@ function formatBrawlerStats(stats) {
     `;
 }
 
-function updateEventDisplay(event, color) {
+function updateEventDisplay(event, color, isCurrent = false) {
     document.getElementById('gameModeName').textContent = event.map.gameMode.name;
     document.getElementById('mapName').textContent = event.map.name;
     document.getElementById('mapThumbnail').src = `https://cdn.brawlify.com/maps/regular/${event.map.id}.png`;
     document.getElementById('brawlerStats').innerHTML = formatBrawlerStats(event.map.stats);
-    document.getElementById('timeUntilStart').textContent = getTimeUntilStart(event.startTime);
+    document.getElementById('timeUntilStart').textContent = getTimeUntilStart(event.startTime, event.endTime);
     document.getElementById('eventDate').textContent = formatDate(event.startTime);
     document.getElementById('gameModeBanner').src = `https://cdn-misc.brawlify.com/gamemode/header/${event.map.gameMode.hash}.png`;
     document.querySelector('.event-card').style.border = `5px solid ${color}`;
+    document.getElementById('eventStatus').textContent = isCurrent ? 'Поточна подія' : 'Наступна подія';
 }
 
 async function fetchEvents() {
@@ -78,19 +102,35 @@ async function fetchEvents() {
         console.log('Повні дані з API:', JSON.stringify(data, null, 2));
         console.log('Ключі в data:', Object.keys(data));
 
-        const now = new Date(); // Універсальний поточний час для логів
+        const now = getUkraineTime();
         console.log('Поточний час в Україні:', now.toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' }));
 
         const upcomingEvents = data.upcoming || [];
+        const activeEvents = data.active || [];
 
-        if (!Array.isArray(upcomingEvents) || upcomingEvents.length === 0) {
-            console.log('Немає майбутніх подій у upcoming або дані не є масивом');
-            return [];
+        if (!Array.isArray(upcomingEvents) && !Array.isArray(activeEvents)) {
+            console.log('Немає подій у upcoming або active або дані не є масивами');
+            return { upcoming: [], active: [] };
         }
 
-        // Прибрано фільтрацію - довіряємо API
-        console.log('Майбутні події:', JSON.stringify(upcomingEvents, null, 2));
-        return upcomingEvents;
+        const filteredUpcomingEvents = upcomingEvents.filter(event => {
+            const start = new Date(event.startTime);
+            const isUpcoming = start > now;
+            console.log(`Подія: ${event.map.gameMode.name} - ${event.map.name}, Start: ${start.toISOString()}, Now: ${now.toISOString()}, Майбутня: ${isUpcoming}`);
+            return isUpcoming;
+        });
+
+        const filteredActiveEvents = activeEvents.filter(event => {
+            const start = new Date(event.startTime);
+            const end = new Date(event.endTime);
+            const isActive = now >= start && now <= end;
+            console.log(`Подія: ${event.map.gameMode.name} - ${event.map.name}, Start: ${start.toISOString()}, End: ${end.toISOString()}, Активна: ${isActive}`);
+            return isActive;
+        });
+
+        console.log('Фільтровані майбутні події:', JSON.stringify(filteredUpcomingEvents, null, 2));
+        console.log('Фільтровані активні події:', JSON.stringify(filteredActiveEvents, null, 2));
+        return { upcoming: filteredUpcomingEvents, active: filteredActiveEvents };
     } catch (error) {
         console.error('Помилка завантаження подій:', error.message);
         if (error.response) {
@@ -101,23 +141,23 @@ async function fetchEvents() {
         } else {
             console.error('Помилка конфігурації:', error.message);
         }
-        return [];
+        return { upcoming: [], active: [] };
     }
 }
 
-function updateEventSelect(selectList, events) {
-    console.log('Оновлюємо select з подіями:', events.length);
-    console.log('Події, передані в select:', JSON.stringify(events, null, 2));
+function updateEventSelect(selectList, events, isCurrent = false) {
+    console.log(`Оновлюємо select з подіями (${isCurrent ? 'поточні' : 'майбутні'}):`, events.length);
+    console.log(`Події, передані в select (${isCurrent ? 'поточні' : 'майбутні'}):`, JSON.stringify(events, null, 2));
     let optionsHTML = '';
     
     if (events.length === 0) {
-        optionsHTML = '<li data-value="">Немає майбутніх подій</li>';
+        optionsHTML = `<li data-value="">Немає ${isCurrent ? 'поточних' : 'майбутніх'} подій</li>`;
     } else {
         optionsHTML = events.map((event, index) => {
             const gameModeId = event.map.gameMode?.scId || '';
             const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
             return `
-                <li data-value="${index}">
+                <li data-value="${isCurrent ? 'current' : 'upcoming'}_${index}">
                     <img src="${iconUrl}" alt="${event.map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
                     ${event.map.gameMode.name} - ${event.map.name}
                 </li>
@@ -126,43 +166,56 @@ function updateEventSelect(selectList, events) {
     }
     
     selectList.innerHTML = optionsHTML;
-    console.log('Згенерований HTML для select:', optionsHTML);
+    console.log(`Згенерований HTML для select (${isCurrent ? 'поточні' : 'майбутні'}):`, optionsHTML);
 }
 
 async function loadEvents() {
     const selectList = document.getElementById('eventSelectList');
     const selectSelected = document.querySelector('.select-selected');
+    const toggleButton = document.createElement('button');
+    toggleButton.id = 'toggleEvents';
+    toggleButton.textContent = 'Показати поточні';
+    toggleButton.className = 'toggle-button';
+    document.querySelector('.custom-select').appendChild(toggleButton);
+
+    let isShowingCurrent = false;
+
+    const updateDisplay = (events, isCurrent) => {
+        if (events.length === 0) {
+            updateEventSelect(selectList, events, isCurrent);
+            document.getElementById('gameModeName').textContent = `Немає ${isCurrent ? 'поточних' : 'майбутніх'} подій`;
+            document.getElementById('mapName').textContent = '';
+            document.getElementById('mapThumbnail').src = '';
+            document.getElementById('brawlerStats').innerHTML = '';
+            document.getElementById('timeUntilStart').textContent = `Очікуємо нові ${isCurrent ? 'поточні' : 'майбутні'} події`;
+            document.getElementById('eventDate').textContent = '';
+            document.getElementById('gameModeBanner').src = '';
+            document.querySelector('.event-card').style.border = `5px solid #ccc`;
+            selectSelected.textContent = `Немає ${isCurrent ? 'поточних' : 'майбутніх'} подій`;
+            document.getElementById('eventStatus').textContent = isCurrent ? 'Поточна подія' : 'Наступна подія';
+        } else {
+            updateEventSelect(selectList, events, isCurrent);
+            const initialColor = colors[Math.floor(Math.random() * colors.length)];
+            updateEventDisplay(events[0], initialColor, isCurrent);
+            const gameModeId = events[0].map.gameMode?.scId || '';
+            const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
+            selectSelected.innerHTML = `
+                <div class="icon-container">
+                    <img src="${iconUrl}" alt="${events[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
+                </div>
+                ${events[0].map.gameMode.name} - ${events[0].map.name}
+                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+            `;
+        }
+        toggleButton.textContent = isCurrent ? 'Показати наступні' : 'Показати поточні';
+    };
 
     eventsData = await fetchEvents();
-    console.log('Завантажено подій у eventsData:', eventsData.length);
+    console.log('Завантажено подій у eventsData:', eventsData.upcoming.length, 'майбутніх,', eventsData.active.length, 'активних');
 
-    if (eventsData.length === 0) {
-        updateEventSelect(selectList, eventsData);
-        document.getElementById('gameModeName').textContent = 'Немає майбутніх подій';
-        document.getElementById('mapName').textContent = '';
-        document.getElementById('mapThumbnail').src = '';
-        document.getElementById('brawlerStats').innerHTML = '';
-        document.getElementById('timeUntilStart').textContent = 'Очікуємо нові події';
-        document.getElementById('eventDate').textContent = '';
-        document.getElementById('gameModeBanner').src = '';
-        document.querySelector('.event-card').style.border = `5px solid #ccc`;
-        selectSelected.textContent = 'Немає майбутніх подій';
-    } else {
-        updateEventSelect(selectList, eventsData);
-        const initialColor = colors[Math.floor(Math.random() * colors.length)];
-        updateEventDisplay(eventsData[0], initialColor);
-        const gameModeId = eventsData[0].map.gameMode?.scId || '';
-        const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
-        selectSelected.innerHTML = `
-            <div class="icon-container">
-                <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
-            </div>
-            ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
-            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-            </svg>
-        `;
-    }
+    updateDisplay(eventsData.upcoming, false);
 
     // Toggle dropdown visibility
     selectSelected.addEventListener('click', () => {
@@ -173,10 +226,12 @@ async function loadEvents() {
     selectList.addEventListener('click', (e) => {
         const li = e.target.closest('li');
         if (!li) return;
-        const selectedIndex = li.getAttribute('data-value');
-        if (selectedIndex === '') return;
+        const selectedValue = li.getAttribute('data-value');
+        if (selectedValue === '') return;
 
-        const selectedEvent = eventsData[selectedIndex];
+        const [eventType, selectedIndex] = selectedValue.split('_');
+        const events = eventType === 'current' ? eventsData.active : eventsData.upcoming;
+        const selectedEvent = events[parseInt(selectedIndex)];
         const gameModeId = selectedEvent.map.gameMode?.scId || '';
         const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
         selectSelected.innerHTML = `
@@ -191,25 +246,35 @@ async function loadEvents() {
         selectList.style.display = 'none';
 
         const color = colors[Math.floor(Math.random() * colors.length)];
-        updateEventDisplay(selectedEvent, color);
+        updateEventDisplay(selectedEvent, color, eventType === 'current');
 
-        if (selectedIndex !== '0') {
+        if (selectedIndex !== '0' || eventType !== 'upcoming') {
             setTimeout(() => {
-                const gameModeId = eventsData[0].map.gameMode?.scId || '';
-                const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
-                selectSelected.innerHTML = `
-                    <div class="icon-container">
-                        <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
-                    </div>
-                    ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
-                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                    </svg>
-                `;
-                const resetColor = colors[Math.floor(Math.random() * colors.length)];
-                updateEventDisplay(eventsData[0], resetColor);
+                const events = isShowingCurrent ? eventsData.active : eventsData.upcoming;
+                if (events.length > 0) {
+                    const gameModeId = events[0].map.gameMode?.scId || '';
+                    const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
+                    selectSelected.innerHTML = `
+                        <div class="icon-container">
+                            <img src="${iconUrl}" alt="${events[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
+                        </div>
+                        ${events[0].map.gameMode.name} - ${events[0].map.name}
+                        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                        </svg>
+                    `;
+                    const resetColor = colors[Math.floor(Math.random() * colors.length)];
+                    updateEventDisplay(events[0], resetColor, isShowingCurrent);
+                }
             }, 60000);
         }
+    });
+
+    // Handle toggle button
+    toggleButton.addEventListener('click', async () => {
+        isShowingCurrent = !isShowingCurrent;
+        eventsData = await fetchEvents();
+        updateDisplay(isShowingCurrent ? eventsData.active : eventsData.upcoming, isShowingCurrent);
     });
 
     // Close dropdown when clicking outside
@@ -220,64 +285,15 @@ async function loadEvents() {
     });
 
     setInterval(async () => {
-        const previousEventsCount = eventsData.length;
+        const previousEventsCount = eventsData.upcoming.length + eventsData.active.length;
         eventsData = await fetchEvents();
-        console.log('Оновлено подій у eventsData:', eventsData.length);
+        console.log('Оновлено подій у eventsData:', eventsData.upcoming.length, 'майбутніх,', eventsData.active.length, 'активних');
 
-        if (eventsData.length === 0) {
-            updateEventSelect(selectList, eventsData);
-            document.getElementById('gameModeName').textContent = 'Немає майбутніх подій';
-            document.getElementById('mapName').textContent = '';
-            document.getElementById('mapThumbnail').src = '';
-            document.getElementById('brawlerStats').innerHTML = '';
-            document.getElementById('timeUntilStart').textContent = 'Очікуємо нові події';
-            document.getElementById('eventDate').textContent = '';
-            document.getElementById('gameModeBanner').src = '';
-            document.querySelector('.event-card').style.border = `5px solid #ccc`;
-            selectSelected.textContent = 'Немає майбутніх подій';
-        } else {
-            updateEventSelect(selectList, eventsData);
-            const currentSelected = selectSelected.textContent.trim();
-            let currentIndex = -1;
-            eventsData.forEach((event, index) => {
-                if (`${event.map.gameMode.name} - ${event.map.name}` === currentSelected) {
-                    currentIndex = index;
-                }
-            });
+        const events = isShowingCurrent ? eventsData.active : eventsData.upcoming;
+        updateDisplay(events, isShowingCurrent);
 
-            if (currentIndex >= eventsData.length || currentIndex < 0) {
-                const gameModeId = eventsData[0].map.gameMode?.scId || '';
-                const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
-                selectSelected.innerHTML = `
-                    <div class="icon-container">
-                        <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
-                    </div>
-                    ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
-                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                    </svg>
-                `;
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                updateEventDisplay(eventsData[0], color);
-            } else {
-                const gameModeId = eventsData[currentIndex].map.gameMode?.scId || '';
-                const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
-                selectSelected.innerHTML = `
-                    <div class="icon-container">
-                        <img src="${iconUrl}" alt="${eventsData[currentIndex].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
-                    </div>
-                    ${eventsData[currentIndex].map.gameMode.name} - ${eventsData[currentIndex].map.name}
-                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                    </svg>
-                `;
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                updateEventDisplay(eventsData[currentIndex], color);
-            }
-
-            if (previousEventsCount !== eventsData.length) {
-                console.log(`Кількість подій змінилася: було ${previousEventsCount}, стало ${eventsData.length}`);
-            }
+        if (previousEventsCount !== (eventsData.upcoming.length + eventsData.active.length)) {
+            console.log(`Кількість подій змінилася: було ${previousEventsCount}, стало ${eventsData.upcoming.length + eventsData.active.length}`);
         }
     }, 60000);
 }
