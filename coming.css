@@ -341,7 +341,7 @@ h1 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 5px;
+    padding: 10px;
     gap: 10px;
 }
 
