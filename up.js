@@ -73,7 +73,7 @@ function updateEventDisplay(event, color) {
     document.getElementById('mapName').textContent = event.map.name;
     document.getElementById('mapThumbnail').src = `https://cdn.brawlify.com/maps/regular/${event.map.id}.png`;
     document.getElementById('brawlerStats').innerHTML = formatBrawlerStats(event.map.stats);
-    document.getElementById('timeUntilStart').textContent = getTimeUntilStart(event.startTime); // Змінено: додаємо лише текст часу
+    document.getElementById('timeUntilStart').textContent = getTimeUntilStart(event.startTime);
     document.getElementById('eventDate').textContent = formatDate(event.startTime);
     document.getElementById('gameModeBanner').src = `https://cdn-misc.brawlify.com/gamemode/header/${event.map.gameMode.hash}.png`;
     document.querySelector('.event-card').style.border = `5px solid ${color}`;
@@ -169,13 +169,13 @@ async function loadEvents() {
         const gameModeId = eventsData[0].map.gameMode?.scId || '';
         const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
         selectSelected.innerHTML = `
-            <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
-            ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
             <div class="icon-container">
-                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                </svg>
+                <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
             </div>
+            ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
+            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+            </svg>
         `;
     }
 
@@ -191,17 +191,20 @@ async function loadEvents() {
         const selectedIndex = li.getAttribute('data-value');
         if (selectedIndex === '') return;
 
+        const selectedEvent = eventsData[selectedIndex];
+        const gameModeId = selectedEvent.map.gameMode?.scId || '';
+        const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
         selectSelected.innerHTML = `
-            ${li.innerHTML}
             <div class="icon-container">
-                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                </svg>
+                <img src="${iconUrl}" alt="${selectedEvent.map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
             </div>
+            ${selectedEvent.map.gameMode.name} - ${selectedEvent.map.name}
+            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+            </svg>
         `;
         selectList.style.display = 'none';
 
-        const selectedEvent = eventsData[selectedIndex];
         const color = colors[Math.floor(Math.random() * colors.length)];
         updateEventDisplay(selectedEvent, color);
 
@@ -210,13 +213,13 @@ async function loadEvents() {
                 const gameModeId = eventsData[0].map.gameMode?.scId || '';
                 const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
                 selectSelected.innerHTML = `
-                    <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
-                    ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
                     <div class="icon-container">
-                        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                        </svg>
+                        <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
                     </div>
+                    ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
+                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                    </svg>
                 `;
                 const resetColor = colors[Math.floor(Math.random() * colors.length)];
                 updateEventDisplay(eventsData[0], resetColor);
@@ -261,13 +264,13 @@ async function loadEvents() {
                 const gameModeId = eventsData[0].map.gameMode?.scId || '';
                 const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
                 selectSelected.innerHTML = `
-                    <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
-                    ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
                     <div class="icon-container">
-                        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                        </svg>
+                        <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
                     </div>
+                    ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
+                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                    </svg>
                 `;
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 updateEventDisplay(eventsData[0], color);
@@ -275,13 +278,13 @@ async function loadEvents() {
                 const gameModeId = eventsData[currentIndex].map.gameMode?.scId || '';
                 const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
                 selectSelected.innerHTML = `
-                    <img src="${iconUrl}" alt="${eventsData[currentIndex].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
-                    ${eventsData[currentIndex].map.gameMode.name} - ${eventsData[currentIndex].map.name}
                     <div class="icon-container">
-                        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                        </svg>
+                        <img src="${iconUrl}" alt="${eventsData[currentIndex].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
                     </div>
+                    ${eventsData[currentIndex].map.gameMode.name} - ${eventsData[currentIndex].map.name}
+                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                    </svg>
                 `;
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 updateEventDisplay(eventsData[currentIndex], color);
