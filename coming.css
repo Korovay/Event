@@ -352,7 +352,7 @@ h1 {
     object-fit: contain;
     position: relative;
     z-index: 2; /* Передній план */
-    transform: translateY(-40px); /* Піднімаємо spike-icon на 20 пікселів вгору */
+    transform: translateY(-50px); /* Піднімаємо spike-icon на 20 пікселів вгору */
 }
 
 .new-icon-container {
