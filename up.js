@@ -1,21 +1,12 @@
 const colors = ['#DAF7A6', '#DAA520', '#FFE4E1', '#B0C4DE', '#DA70D6'];
 let eventsData = [];
 
-// Функція для отримання часу в Україні (UTC+2 взимку, UTC+3 влітку)
-function getUkraineTime() {
-    const now = new Date();
-    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
-    const year = now.getFullYear();
-    const dstStart = new Date(Date.UTC(year, 2, 31 - ((5 + new Date(year, 2, 31).getDay()) % 7), 1, 0, 0));
-    const dstEnd = new Date(Date.UTC(year, 9, 31 - ((5 + new Date(year, 9, 31).getDay()) % 7), 1, 0, 0));
-    const ukraineOffset = (now >= dstStart && now < dstEnd ? 3 : 2) * 60 * 60 * 1000;
-    return new Date(utcTime + ukraineOffset);
-}
-
+// Функція для отримання часу до початку (використовуємо універсальний час)
 function getTimeUntilStart(startTime) {
-    const now = getUkraineTime();
+    const now = new Date(); // Універсальний поточний час
     const start = new Date(startTime);
     const diff = start - now;
+    if (diff < 0) return 'Вже розпочато'; // На випадок, якщо API помилився
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     return `${hours}h ${minutes}min`;
@@ -87,7 +78,7 @@ async function fetchEvents() {
         console.log('Повні дані з API:', JSON.stringify(data, null, 2));
         console.log('Ключі в data:', Object.keys(data));
 
-        const now = getUkraineTime();
+        const now = new Date(); // Універсальний поточний час для логів
         console.log('Поточний час в Україні:', now.toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' }));
 
         const upcomingEvents = data.upcoming || [];
@@ -97,15 +88,9 @@ async function fetchEvents() {
             return [];
         }
 
-        const filteredUpcomingEvents = upcomingEvents.filter(event => {
-            const start = new Date(event.startTime);
-            const isUpcoming = start > now;
-            console.log(`Подія: ${event.map.gameMode.name} - ${event.map.name}, Start: ${start.toISOString()}, Now: ${now.toISOString()}, Майбутня: ${isUpcoming}`);
-            return isUpcoming;
-        });
-
-        console.log('Фільтровані майбутні події:', JSON.stringify(filteredUpcomingEvents, null, 2));
-        return filteredUpcomingEvents;
+        // Прибрано фільтрацію - довіряємо API
+        console.log('Майбутні події:', JSON.stringify(upcomingEvents, null, 2));
+        return upcomingEvents;
     } catch (error) {
         console.error('Помилка завантаження подій:', error.message);
         if (error.response) {
