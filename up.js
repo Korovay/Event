@@ -91,10 +91,10 @@ async function fetchEvents() {
         const now = getUkraineTime();
         console.log('Поточний час в Україні:', now.toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' }));
 
-        const upcomingEvents = data.upcoming || [];
+        const upcomingEvents = data.active || [];
 
         if (!Array.isArray(upcomingEvents) || upcomingEvents.length === 0) {
-            console.log('Немає майбутніх подій у upcoming або дані не є масивом');
+            console.log('Немає активних подій у active або дані не є масивом');
             return [];
         }
 
@@ -130,11 +130,10 @@ function updateEventSelect(selectList, events) {
         optionsHTML = '<li data-value="">Немає майбутніх подій</li>';
     } else {
         optionsHTML = events.map((event, index) => {
-            const gameModeId = event.map.gameMode?.id || '';
-            const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/bgR58mRL/1118.png';
+            const gameModeId = event.map.gameMode?.id;
             return `
                 <li data-value="${index}">
-                    <img src="${iconUrl}" alt="${event.map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/bgR58mRL/1118.png'">
+                    ${gameModeId ? `<img src="https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png" alt="${event.map.gameMode.name} icon">` : ''}
                     ${event.map.gameMode.name} - ${event.map.name}
                 </li>
             `;
@@ -167,10 +166,9 @@ async function loadEvents() {
         updateEventSelect(selectList, eventsData);
         const initialColor = colors[Math.floor(Math.random() * colors.length)];
         updateEventDisplay(eventsData[0], initialColor);
-        const gameModeId = eventsData[0].map.gameMode?.id || '';
-        const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/bgR58mRL/1118.png';
+        const gameModeId = eventsData[0].map.gameMode?.id;
         selectSelected.innerHTML = `
-            <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/bgR58mRL/1118.png'">
+            ${gameModeId ? `<img src="https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png" alt="${eventsData[0].map.gameMode.name} icon">` : ''}
             ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
         `;
     }
@@ -196,10 +194,9 @@ async function loadEvents() {
 
         if (selectedIndex !== '0') {
             setTimeout(() => {
-                const gameModeId = eventsData[0].map.gameMode?.id || '';
-                const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/bgR58mRL/1118.png';
+                const gameModeId = eventsData[0].map.gameMode?.id;
                 selectSelected.innerHTML = `
-                    <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/bgR58mRL/1118.png'">
+                    ${gameModeId ? `<img src="https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png" alt="${eventsData[0].map.gameMode.name} icon">` : ''}
                     ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
                 `;
                 const resetColor = colors[Math.floor(Math.random() * colors.length)];
@@ -242,19 +239,17 @@ async function loadEvents() {
             });
 
             if (currentIndex >= eventsData.length || currentIndex < 0) {
-                const gameModeId = eventsData[0].map.gameMode?.id || '';
-                const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/bgR58mRL/1118.png';
+                const gameModeId = eventsData[0].map.gameMode?.id;
                 selectSelected.innerHTML = `
-                    <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/bgR58mRL/1118.png'">
+                    ${gameModeId ? `<img src="https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png" alt="${eventsData[0].map.gameMode.name} icon">` : ''}
                     ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
                 `;
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 updateEventDisplay(eventsData[0], color);
             } else {
-                const gameModeId = eventsData[currentIndex].map.gameMode?.id || '';
-                const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/bgR58mRL/1118.png';
+                const gameModeId = eventsData[currentIndex].map.gameMode?.id;
                 selectSelected.innerHTML = `
-                    <img src="${iconUrl}" alt="${eventsData[currentIndex].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/bgR58mRL/1118.png'">
+                    ${gameModeId ? `<img src="https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png" alt="${eventsData[currentIndex].map.gameMode.name} icon">` : ''}
                     ${eventsData[currentIndex].map.gameMode.name} - ${eventsData[currentIndex].map.name}
                 `;
                 const color = colors[Math.floor(Math.random() * colors.length)];
