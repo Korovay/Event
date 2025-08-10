@@ -91,10 +91,10 @@ async function fetchEvents() {
         const now = getUkraineTime();
         console.log('Поточний час в Україні:', now.toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' }));
 
-        const upcomingEvents = data.active || [];
+        const upcomingEvents = data.upcoming || [];
 
         if (!Array.isArray(upcomingEvents) || upcomingEvents.length === 0) {
-            console.log('Немає активних подій у active або дані не є масивом');
+            console.log('Немає майбутніх подій у upcoming або дані не є масивом');
             return [];
         }
 
@@ -130,10 +130,11 @@ function updateEventSelect(selectList, events) {
         optionsHTML = '<li data-value="">Немає майбутніх подій</li>';
     } else {
         optionsHTML = events.map((event, index) => {
-            const gameModeId = event.map.gameMode?.id;
+            const gameModeId = event.map.gameMode?.id || '';
+            const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLn/3094.png';
             return `
                 <li data-value="${index}">
-                    ${gameModeId ? `<img src="https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png" alt="${event.map.gameMode.name} icon">` : ''}
+                    <img src="${iconUrl}" alt="${event.map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLn/3094.png'">
                     ${event.map.gameMode.name} - ${event.map.name}
                 </li>
             `;
@@ -153,11 +154,11 @@ async function loadEvents() {
 
     if (eventsData.length === 0) {
         updateEventSelect(selectList, eventsData);
-        document.getElementById('gameModeName').textContent = 'There are no upcoming events.';
+        document.getElementById('gameModeName').textContent = 'Немає майбутніх подій';
         document.getElementById('mapName').textContent = '';
         document.getElementById('mapThumbnail').src = '';
         document.getElementById('brawlerStats').innerHTML = '';
-        document.getElementById('timeUntilStart').textContent = 'We are expecting new events.';
+        document.getElementById('timeUntilStart').textContent = 'Очікуємо нові події';
         document.getElementById('eventDate').textContent = '';
         document.getElementById('gameModeBanner').src = '';
         document.querySelector('.event-card').style.border = `5px solid #ccc`;
@@ -166,9 +167,10 @@ async function loadEvents() {
         updateEventSelect(selectList, eventsData);
         const initialColor = colors[Math.floor(Math.random() * colors.length)];
         updateEventDisplay(eventsData[0], initialColor);
-        const gameModeId = eventsData[0].map.gameMode?.id;
+        const gameModeId = eventsData[0].map.gameMode?.id || '';
+        const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLn/3094.png';
         selectSelected.innerHTML = `
-            ${gameModeId ? `<img src="https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png" alt="${eventsData[0].map.gameMode.name} icon">` : ''}
+            <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLn/3094.png'">
             ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
         `;
     }
@@ -194,9 +196,10 @@ async function loadEvents() {
 
         if (selectedIndex !== '0') {
             setTimeout(() => {
-                const gameModeId = eventsData[0].map.gameMode?.id;
+                const gameModeId = eventsData[0].map.gameMode?.id || '';
+                const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLn/3094.png';
                 selectSelected.innerHTML = `
-                    ${gameModeId ? `<img src="https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png" alt="${eventsData[0].map.gameMode.name} icon">` : ''}
+                    <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLn/3094.png'">
                     ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
                 `;
                 const resetColor = colors[Math.floor(Math.random() * colors.length)];
@@ -239,17 +242,19 @@ async function loadEvents() {
             });
 
             if (currentIndex >= eventsData.length || currentIndex < 0) {
-                const gameModeId = eventsData[0].map.gameMode?.id;
+                const gameModeId = eventsData[0].map.gameMode?.id || '';
+                const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLn/3094.png';
                 selectSelected.innerHTML = `
-                    ${gameModeId ? `<img src="https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png" alt="${eventsData[0].map.gameMode.name} icon">` : ''}
+                    <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLn/3094.png'">
                     ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
                 `;
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 updateEventDisplay(eventsData[0], color);
             } else {
-                const gameModeId = eventsData[currentIndex].map.gameMode?.id;
+                const gameModeId = eventsData[currentIndex].map.gameMode?.id || '';
+                const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLn/3094.png';
                 selectSelected.innerHTML = `
-                    ${gameModeId ? `<img src="https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png" alt="${eventsData[currentIndex].map.gameMode.name} icon">` : ''}
+                    <img src="${iconUrl}" alt="${eventsData[currentIndex].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLn/3094.png'">
                     ${eventsData[currentIndex].map.gameMode.name} - ${eventsData[currentIndex].map.name}
                 `;
                 const color = colors[Math.floor(Math.random() * colors.length)];
