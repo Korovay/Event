@@ -1,18 +1,7 @@
-const colors = [
-    { base: '#DAF7A6', light: '#E8FFD0' },
-    { base: '#DAA520', light: '#FFCE47' },
-    { base: '#FFE4E1', light: '#FFF0EE' },
-    { base: '#B0C4DE', light: '#D0D9E8' },
-    { base: '#DA70D6', light: '#E8A0E4' }
-];
+const colors = ['#DAF7A6', '#DAA520', '#FFE4E1', '#B0C4DE', '#DA70D6'];
 let eventsData = [];
 
-function setBorderColor(colorObj) {
-    const eventCard = document.getElementById('eventCard');
-    eventCard.style.setProperty('--border-color', colorObj.base);
-    eventCard.style.setProperty('--border-color-light', colorObj.light);
-}
-
+// Функція для отримання часу в Україні (UTC+2 взимку, UTC+3 влітку)
 function getUkraineTime() {
     const now = new Date();
     const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
@@ -79,7 +68,7 @@ function formatBrawlerStats(stats) {
     `;
 }
 
-function updateEventDisplay(event, colorObj) {
+function updateEventDisplay(event, color) {
     document.getElementById('gameModeName').textContent = event.map.gameMode.name;
     document.getElementById('mapName').textContent = event.map.name;
     document.getElementById('mapThumbnail').src = `https://cdn.brawlify.com/maps/regular/${event.map.id}.png`;
@@ -87,7 +76,7 @@ function updateEventDisplay(event, colorObj) {
     document.getElementById('timeUntilStart').textContent = getTimeUntilStart(event.startTime);
     document.getElementById('eventDate').textContent = formatDate(event.startTime);
     document.getElementById('gameModeBanner').src = `https://cdn-misc.brawlify.com/gamemode/header/${event.map.gameMode.hash}.png`;
-    setBorderColor(colorObj);
+    document.querySelector('.event-card').style.border = `5px solid ${color}`;
 }
 
 async function fetchEvents() {
@@ -171,7 +160,7 @@ async function loadEvents() {
         document.getElementById('timeUntilStart').textContent = 'Очікуємо нові події';
         document.getElementById('eventDate').textContent = '';
         document.getElementById('gameModeBanner').src = '';
-        setBorderColor({ base: '#ccc', light: '#e0e0e0' });
+        document.querySelector('.event-card').style.border = `5px solid #ccc`;
         selectSelected.textContent = 'Немає майбутніх подій';
     } else {
         updateEventSelect(selectList, eventsData);
@@ -190,10 +179,12 @@ async function loadEvents() {
         `;
     }
 
+    // Toggle dropdown visibility
     selectSelected.addEventListener('click', () => {
         selectList.style.display = selectList.style.display === 'none' ? 'block' : 'none';
     });
 
+    // Handle option selection
     selectList.addEventListener('click', (e) => {
         const li = e.target.closest('li');
         if (!li) return;
@@ -236,6 +227,7 @@ async function loadEvents() {
         }
     });
 
+    // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.custom-select')) {
             selectList.style.display = 'none';
@@ -256,7 +248,7 @@ async function loadEvents() {
             document.getElementById('timeUntilStart').textContent = 'Очікуємо нові події';
             document.getElementById('eventDate').textContent = '';
             document.getElementById('gameModeBanner').src = '';
-            setBorderColor({ base: '#ccc', light: '#e0e0e0' });
+            document.querySelector('.event-card').style.border = `5px solid #ccc`;
             selectSelected.textContent = 'Немає майбутніх подій';
         } else {
             updateEventSelect(selectList, eventsData);
