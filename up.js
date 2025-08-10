@@ -1,30 +1,22 @@
 const colors = ['#DAF7A6', '#DAA520', '#FFE4E1', '#B0C4DE', '#DA70D6'];
 let eventsData = [];
 
-// Функція для отримання часу в Україні (UTC+2 взимку, UTC+3 влітку)
+// Функція для отримання часу в Україні (Europe/Kyiv)
 function getUkraineTime() {
-    const now = new Date();
-    return new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Kyiv' }));
+    return moment.tz('Europe/Kyiv');
 }
 
 function getTimeUntilStart(startTime) {
     const now = getUkraineTime();
-    const start = new Date(startTime);
-    const diff = start - now;
+    const start = moment.tz(startTime, 'Europe/Kyiv');
+    const diff = start.diff(now);
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     return `${hours}h ${minutes}min`;
 }
 
 function formatDate(date) {
-    return new Date(date).toLocaleString('uk-UA', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        timeZone: 'Europe/Kyiv'
-    });
+    return moment.tz(date, 'Europe/Kyiv').format('DD.MM.YYYY, HH:mm');
 }
 
 function formatBrawlerStats(stats) {
@@ -83,7 +75,7 @@ async function fetchEvents() {
         console.log('Ключі в data:', Object.keys(data));
 
         const now = getUkraineTime();
-        console.log('Поточний час в Україні:', now.toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' }));
+        console.log('Поточний час в Україні:', now.format('DD.MM.YYYY, HH:mm:ss'));
 
         const upcomingEvents = data.upcoming || [];
 
@@ -93,9 +85,9 @@ async function fetchEvents() {
         }
 
         const filteredUpcomingEvents = upcomingEvents.filter(event => {
-            const start = new Date(event.startTime);
-            const isUpcoming = start > now;
-            console.log(`Подія: ${event.map.gameMode.name} - ${event.map.name}, Start: ${start.toISOString()}, Now: ${now.toISOString()}, Майбутня: ${isUpcoming}`);
+            const start = moment.tz(event.startTime, 'Europe/Kyiv');
+            const isUpcoming = start.isAfter(now);
+            console.log(`Подія: ${event.map.gameMode.name} - ${event.map.name}, Start: ${start.format()}, Now: ${now.format()}, Майбутня: ${isUpcoming}`);
             return isUpcoming;
         });
 
@@ -202,6 +194,24 @@ async function loadEvents() {
 
         const color = colors[Math.floor(Math.random() * colors.length)];
         updateEventDisplay(selectedEvent, color);
+
+        if (selectedIndex !== '0') {
+            setTimeout(() => {
+                const gameModeId = eventsData[0].map.gameMode?.scId || '';
+                const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
+                selectSelected.innerHTML = `
+                    <div class="icon-container">
+                        <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
+                    </div>
+                    ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
+                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                    </svg>
+                `;
+                const resetColor = colors[Math.floor(Math.random() * colors.length)];
+                updateEventDisplay(eventsData[0], resetColor);
+            }, 60000);
+        }
     });
 
     // Close dropdown when clicking outside
