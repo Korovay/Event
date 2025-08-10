@@ -4,12 +4,7 @@ let eventsData = [];
 // Функція для отримання часу в Україні (UTC+2 взимку, UTC+3 влітку)
 function getUkraineTime() {
     const now = new Date();
-    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
-    const year = now.getFullYear();
-    const dstStart = new Date(Date.UTC(year, 2, 31 - ((5 + new Date(year, 2, 31).getDay()) % 7), 1, 0, 0));
-    const dstEnd = new Date(Date.UTC(year, 9, 31 - ((5 + new Date(year, 9, 31).getDay()) % 7), 1, 0, 0));
-    const ukraineOffset = (now >= dstStart && now < dstEnd ? 3 : 2) * 60 * 60 * 1000;
-    return new Date(utcTime + ukraineOffset);
+    return new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Kyiv' }));
 }
 
 function getTimeUntilStart(startTime) {
@@ -207,24 +202,6 @@ async function loadEvents() {
 
         const color = colors[Math.floor(Math.random() * colors.length)];
         updateEventDisplay(selectedEvent, color);
-
-        if (selectedIndex !== '0') {
-            setTimeout(() => {
-                const gameModeId = eventsData[0].map.gameMode?.scId || '';
-                const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
-                selectSelected.innerHTML = `
-                    <div class="icon-container">
-                        <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
-                    </div>
-                    ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
-                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                    </svg>
-                `;
-                const resetColor = colors[Math.floor(Math.random() * colors.length)];
-                updateEventDisplay(eventsData[0], resetColor);
-            }, 60000);
-        }
     });
 
     // Close dropdown when clicking outside
