@@ -79,14 +79,22 @@ h1 {
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5); /* focus:ring-4 focus:ring-blue-300 */
 }
 
+.select-selected .icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: rgba(255, 255, 255, 0.3); /* Напівпрозорий білий фон */
+    border-radius: 50%; /* Кругла форма */
+    position: relative;
+    z-index: 10;
+}
+
 .select-selected svg {
-    width: 10px;
-    height: 6px;
-    fill: none;
+    width: 12px;
+    height: 12px;
     stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
 }
 
 /* Pulsating effect when select-items is hidden */
@@ -363,6 +371,16 @@ h1 {
         width: 20px;
         height: 20px;
     }
+
+    .select-selected .icon-container {
+        width: 20px;
+        height: 20px;
+    }
+
+    .select-selected svg {
+        width: 10px;
+        height: 10px;
+    }
 }
 
 @media screen and (max-width: 400px) {
@@ -400,5 +418,15 @@ h1 {
     .timer-icon {
         width: 20px;
         height: 20px;
+    }
+
+    .select-selected .icon-container {
+        width: 18px;
+        height: 18px;
+    }
+
+    .select-selected svg {
+        width: 8px;
+        height: 8px;
     }
 }
