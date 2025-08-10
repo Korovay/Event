@@ -343,11 +343,29 @@ h1 {
     align-items: center;
     padding: 5px;
     gap: 10px;
+    position: relative; /* Додаємо відносне позиціонування для дочірніх елементів */
 }
 
 .spike-icon {
     width: 112px;
     height: 212px;
+    object-fit: contain;
+    position: relative;
+    z-index: 2; /* Передній план */
+}
+
+.new-icon-container {
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1; /* Задній план */
+}
+
+.new-icon {
+    width: 165px;
+    height: 121px;
     object-fit: contain;
 }
 
@@ -356,21 +374,8 @@ h1 {
     font-size: 16px;
     color: #333;
     text-align: center;
-}
-
-.new-icon-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
-    gap: 10px;
-}
-
-.new-icon {
-    width: 165px;
-    height: 121px;
-    object-fit: contain;
+    position: relative;
+    z-index: 2; /* Передній план */
 }
 
 /* Медіа-запити для адаптивності */
@@ -467,13 +472,13 @@ h1 {
         height: 150px;
     }
 
-    .copyright-text {
-        font-size: 14px;
-    }
-
     .new-icon {
         width: 123.75px; /* 75% від 165px */
         height: 90.75px; /* 75% від 121px */
+    }
+
+    .copyright-text {
+        font-size: 14px;
     }
 }
 
@@ -544,12 +549,12 @@ h1 {
         height: 113px;
     }
 
-    .copyright-text {
-        font-size: 12px;
-    }
-
     .new-icon {
         width: 99px; /* 60% від 165px */
         height: 72.6px; /* 60% від 121px */
+    }
+
+    .copyright-text {
+        font-size: 12px;
     }
 }
