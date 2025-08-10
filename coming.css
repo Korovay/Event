@@ -1,6 +1,6 @@
 body {
     font-family: 'Lilita One', sans-serif;
-    background: url('https://i.ibb.co/Rp5q5DDm/ed4c4e3e-272f-4093-b74a-42e5044e4014-0702-Mortis-Games-1131x663-popup.png') no-repeat center center fixed;
+    background: url('https://i.ibb.co/xK4S6065/weqwe.png') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
     padding: 20px;
@@ -46,7 +46,12 @@ h1 {
     width: 100%;
 }
 
-select {
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.select-selected {
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -56,6 +61,50 @@ select {
     box-sizing: border-box;
     background: #f9f9f9;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.select-selected img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.select-items {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.select-items li {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.select-items li img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.select-items li:hover {
+    background: #e0e0e0;
 }
 
 .event-info {
@@ -202,7 +251,12 @@ select {
         font-size: 20px;
     }
 
-    select {
+    .select-selected {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .select-items li {
         font-size: 14px;
         padding: 8px;
     }
@@ -226,7 +280,6 @@ select {
 
     .stats-column {
         width: 48%;
-……
     }
 
     .stat-brawler-img-container {
