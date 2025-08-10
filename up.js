@@ -1,22 +1,35 @@
 const colors = ['#DAF7A6', '#DAA520', '#FFE4E1', '#B0C4DE', '#DA70D6'];
 let eventsData = [];
 
-// Функція для отримання часу в Україні (Europe/Kyiv)
+// Функція для отримання часу в Україні (UTC+2 взимку, UTC+3 влітку)
 function getUkraineTime() {
-    return moment.tz('Europe/Kyiv');
+    const now = new Date();
+    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const year = now.getFullYear();
+    const dstStart = new Date(Date.UTC(year, 2, 31 - ((5 + new Date(year, 2, 31).getDay()) % 7), 1, 0, 0));
+    const dstEnd = new Date(Date.UTC(year, 9, 31 - ((5 + new Date(year, 9, 31).getDay()) % 7), 1, 0, 0));
+    const ukraineOffset = (now >= dstStart && now < dstEnd ? 3 : 2) * 60 * 60 * 1000;
+    return new Date(utcTime + ukraineOffset);
 }
 
 function getTimeUntilStart(startTime) {
     const now = getUkraineTime();
-    const start = moment.tz(startTime, 'Europe/Kyiv');
-    const diff = start.diff(now);
+    const start = new Date(startTime);
+    const diff = start - now;
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     return `${hours}h ${minutes}min`;
 }
 
 function formatDate(date) {
-    return moment.tz(date, 'Europe/Kyiv').format('DD.MM.YYYY, HH:mm');
+    return new Date(date).toLocaleString('uk-UA', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'Europe/Kyiv'
+    });
 }
 
 function formatBrawlerStats(stats) {
@@ -75,7 +88,7 @@ async function fetchEvents() {
         console.log('Ключі в data:', Object.keys(data));
 
         const now = getUkraineTime();
-        console.log('Поточний час в Україні:', now.format('DD.MM.YYYY, HH:mm:ss'));
+        console.log('Поточний час в Україні:', now.toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' }));
 
         const upcomingEvents = data.upcoming || [];
 
@@ -85,9 +98,9 @@ async function fetchEvents() {
         }
 
         const filteredUpcomingEvents = upcomingEvents.filter(event => {
-            const start = moment.tz(event.startTime, 'Europe/Kyiv');
-            const isUpcoming = start.isAfter(now);
-            console.log(`Подія: ${event.map.gameMode.name} - ${event.map.name}, Start: ${start.format()}, Now: ${now.format()}, Майбутня: ${isUpcoming}`);
+            const start = new Date(event.startTime);
+            const isUpcoming = start > now;
+            console.log(`Подія: ${event.map.gameMode.name} - ${event.map.name}, Start: ${start.toISOString()}, Now: ${now.toISOString()}, Майбутня: ${isUpcoming}`);
             return isUpcoming;
         });
 
