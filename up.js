@@ -153,11 +153,11 @@ async function loadEvents() {
 
     if (eventsData.length === 0) {
         updateEventSelect(selectList, eventsData);
-        document.getElementById('gameModeName').textContent = 'Немає майбутніх подій';
+        document.getElementById('gameModeName').textContent = 'There are no upcoming events.';
         document.getElementById('mapName').textContent = '';
         document.getElementById('mapThumbnail').src = '';
         document.getElementById('brawlerStats').innerHTML = '';
-        document.getElementById('timeUntilStart').textContent = 'Очікуємо нові події';
+        document.getElementById('timeUntilStart').textContent = 'We are expecting new events.';
         document.getElementById('eventDate').textContent = '';
         document.getElementById('gameModeBanner').src = '';
         document.querySelector('.event-card').style.border = `5px solid #ccc`;
