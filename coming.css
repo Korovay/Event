@@ -225,6 +225,11 @@ h1 {
     height: auto;
     object-fit: cover;
     border-radius: 5px;
+    transition: transform 0.3s ease; /* Smooth transition for scaling */
+}
+
+.map-thumbnail:hover {
+    transform: scale(1.2); /* Scale up by 20% on hover */
 }
 
 .brawler-stats {
@@ -362,6 +367,11 @@ h1 {
     .map-thumbnail {
         width: 100px;
         height: auto;
+        transition: transform 0.3s ease; /* Maintain smooth transition on smaller screens */
+    }
+
+    .map-thumbnail:hover {
+        transform: scale(1.2); /* Maintain scale effect on hover */
     }
 
     .brawler-stats {
@@ -427,6 +437,11 @@ h1 {
 
     .map-thumbnail {
         width: 80px;
+        transition: transform 0.3s ease; /* Maintain smooth transition on smallest screens */
+    }
+
+    .map-thumbnail:hover {
+        transform: scale(1.2); /* Maintain scale effect on hover */
     }
 
     .stat-brawler-img-container {
