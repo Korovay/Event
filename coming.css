@@ -377,6 +377,8 @@ h1 {
     text-align: center;
     position: relative;
     z-index: 2; /* Передній план */
+    transform: translateY(-30px);
+
 }
 
 /* Медіа-запити для адаптивності */
