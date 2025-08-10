@@ -129,12 +129,16 @@ function updateEventSelect(selectList, events) {
     if (events.length === 0) {
         optionsHTML = '<li data-value="">Немає майбутніх подій</li>';
     } else {
-        optionsHTML = events.map((event, index) => `
-            <li data-value="${index}">
-                <img src="https://cdn.brawlify.com/game-modes/regular/${event.map.gameMode.id}.png" alt="${event.map.gameMode.name} icon" onerror="this.src='https://cdn.brawlify.com/game-modes/regular/48000000.png'">
-                ${event.map.gameMode.name} - ${event.map.name}
-            </li>
-        `).join('');
+        optionsHTML = events.map((event, index) => {
+            const gameModeId = event.map.gameMode?.id || '';
+            const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://via.placeholder.com/20';
+            return `
+                <li data-value="${index}">
+                    <img src="${iconUrl}" alt="${event.map.gameMode.name} icon" onerror="this.src='https://via.placeholder.com/20'">
+                    ${event.map.gameMode.name} - ${event.map.name}
+                </li>
+            `;
+        }).join('');
     }
     
     selectList.innerHTML = optionsHTML;
@@ -163,8 +167,10 @@ async function loadEvents() {
         updateEventSelect(selectList, eventsData);
         const initialColor = colors[Math.floor(Math.random() * colors.length)];
         updateEventDisplay(eventsData[0], initialColor);
+        const gameModeId = eventsData[0].map.gameMode?.id || '';
+        const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://via.placeholder.com/20';
         selectSelected.innerHTML = `
-            <img src="https://cdn.brawlify.com/game-modes/regular/${eventsData[0].map.gameMode.id}.png" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://cdn.brawlify.com/game-modes/regular/48000000.png'">
+            <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://via.placeholder.com/20'">
             ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
         `;
     }
@@ -190,8 +196,10 @@ async function loadEvents() {
 
         if (selectedIndex !== '0') {
             setTimeout(() => {
+                const gameModeId = eventsData[0].map.gameMode?.id || '';
+                const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://via.placeholder.com/20';
                 selectSelected.innerHTML = `
-                    <img src="https://cdn.brawlify.com/game-modes/regular/${eventsData[0].map.gameMode.id}.png" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://cdn.brawlify.com/game-modes/regular/48000000.png'">
+                    <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://via.placeholder.com/20'">
                     ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
                 `;
                 const resetColor = colors[Math.floor(Math.random() * colors.length)];
@@ -234,15 +242,19 @@ async function loadEvents() {
             });
 
             if (currentIndex >= eventsData.length || currentIndex < 0) {
+                const gameModeId = eventsData[0].map.gameMode?.id || '';
+                const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://via.placeholder.com/20';
                 selectSelected.innerHTML = `
-                    <img src="https://cdn.brawlify.com/game-modes/regular/${eventsData[0].map.gameMode.id}.png" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://cdn.brawlify.com/game-modes/regular/48000000.png'">
+                    <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://via.placeholder.com/20'">
                     ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
                 `;
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 updateEventDisplay(eventsData[0], color);
             } else {
+                const gameModeId = eventsData[currentIndex].map.gameMode?.id || '';
+                const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://via.placeholder.com/20';
                 selectSelected.innerHTML = `
-                    <img src="https://cdn.brawlify.com/game-modes/regular/${eventsData[currentIndex].map.gameMode.id}.png" alt="${eventsData[currentIndex].map.gameMode.name} icon" onerror="this.src='https://cdn.brawlify.com/game-modes/regular/48000000.png'">
+                    <img src="${iconUrl}" alt="${eventsData[currentIndex].map.gameMode.name} icon" onerror="this.src='https://via.placeholder.com/20'">
                     ${eventsData[currentIndex].map.gameMode.name} - ${eventsData[currentIndex].map.name}
                 `;
                 const color = colors[Math.floor(Math.random() * colors.length)];
