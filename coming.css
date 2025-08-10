@@ -86,8 +86,7 @@ select {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 10px; /* Зменшено з 15px для економії простору */
-    /* Прибрано flex-wrap: wrap; */
+    gap: 10px;
 }
 
 .map-container {
@@ -95,7 +94,7 @@ select {
     background: #f5f5f5;
     border-radius: 10px;
     display: inline-block;
-    flex-shrink: 0; /* Запобігає стисканню */
+    flex-shrink: 0;
 }
 
 .map-thumbnail {
@@ -111,7 +110,7 @@ select {
     justify-content: space-between;
     gap: 10px;
     flex-grow: 1;
-    min-width: 0; /* Дозволяє стискатися, якщо потрібно */
+    min-width: 0;
 }
 
 .stats-column {
@@ -186,40 +185,6 @@ select {
     border-radius: 5px;
 }
 
-.flag-counter-container {
-    padding: 10px;
-    background: #f5f5f5;
-    border-radius: 10px;
-    display: inline-block;
-}
-
-.flag-counter {
-    text-align: center;
-    margin-top: 15px;
-}
-
-.flag-counter img {
-    max-width: 100%;
-    height: auto;
-}
-
-.discord-btn {
-    display: inline-block;
-    background-color: #7289DA;
-    color: white;
-    padding: 12px 24px;
-    text-decoration: none;
-    border-radius: 20px;
-    font-size: 16px;
-    text-align: center;
-    transition: background-color 0.3s ease;
-    align-self: center;
-}
-
-.discord-btn:hover {
-    background-color: #5B6EAE;
-}
-
 .timer-icon {
     width: 20px;
     height: 20px;
@@ -251,16 +216,17 @@ select {
     }
 
     .map-thumbnail {
-        width: 100px; /* Зменшено для малих екранів */
+        width: 100px;
         height: auto;
     }
 
     .brawler-stats {
-        min-width: 0; /* Дозволяє стискатися */
+        min-width: 0;
     }
 
     .stats-column {
-        width: 48%; /* Залишаємо два стовпці */
+        width: 48%;
+……
     }
 
     .stat-brawler-img-container {
@@ -280,19 +246,6 @@ select {
         padding: 8px;
     }
 
-    .game-mode-banner {
-        max-height: 100px;
-    }
-
-    .flag-counter-container {
-        padding: 8px;
-    }
-
-    .discord-btn {
-        font-size: 14px;
-        padding: 10px 20px;
-    }
-
     .timer-icon {
         width: 20px;
         height: 20px;
@@ -301,8 +254,8 @@ select {
 
 @media screen and (max-width: 400px) {
     .event-row {
-        flex-direction: row; /* Залишаємо горизонтально */
-        gap: 5px; /* Ще менший зазор */
+        flex-direction: row;
+        gap: 5px;
     }
 
     .map-container {
@@ -310,7 +263,7 @@ select {
     }
 
     .map-thumbnail {
-        width: 80px; /* Ще менший розмір для дуже малих екранів */
+        width: 80px;
     }
 
     .stat-brawler-img-container {
@@ -328,10 +281,6 @@ select {
     }
 
     .banner-container {
-        padding: 5px;
-    }
-
-    .flag-counter-container {
         padding: 5px;
     }
 
