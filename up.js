@@ -73,8 +73,7 @@ function updateEventDisplay(event, color) {
     document.getElementById('mapName').textContent = event.map.name;
     document.getElementById('mapThumbnail').src = `https://cdn.brawlify.com/maps/regular/${event.map.id}.png`;
     document.getElementById('brawlerStats').innerHTML = formatBrawlerStats(event.map.stats);
-    document.getElementById('timeUntilStart').innerHTML = 
-        '<img src="https://s6.gifyu.com/images/bbrI7.gif" class="timer-icon" alt="Timer Icon"> ' + getTimeUntilStart(event.startTime);
+    document.getElementById('timeUntilStart').textContent = getTimeUntilStart(event.startTime); // Змінено: додаємо лише текст часу
     document.getElementById('eventDate').textContent = formatDate(event.startTime);
     document.getElementById('gameModeBanner').src = `https://cdn-misc.brawlify.com/gamemode/header/${event.map.gameMode.hash}.png`;
     document.querySelector('.event-card').style.border = `5px solid ${color}`;
@@ -172,6 +171,11 @@ async function loadEvents() {
         selectSelected.innerHTML = `
             <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
             ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
+            <div class="icon-container">
+                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+            </div>
         `;
     }
 
@@ -187,7 +191,14 @@ async function loadEvents() {
         const selectedIndex = li.getAttribute('data-value');
         if (selectedIndex === '') return;
 
-        selectSelected.innerHTML = li.innerHTML;
+        selectSelected.innerHTML = `
+            ${li.innerHTML}
+            <div class="icon-container">
+                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+            </div>
+        `;
         selectList.style.display = 'none';
 
         const selectedEvent = eventsData[selectedIndex];
@@ -201,6 +212,11 @@ async function loadEvents() {
                 selectSelected.innerHTML = `
                     <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
                     ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
+                    <div class="icon-container">
+                        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                        </svg>
+                    </div>
                 `;
                 const resetColor = colors[Math.floor(Math.random() * colors.length)];
                 updateEventDisplay(eventsData[0], resetColor);
@@ -247,6 +263,11 @@ async function loadEvents() {
                 selectSelected.innerHTML = `
                     <img src="${iconUrl}" alt="${eventsData[0].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
                     ${eventsData[0].map.gameMode.name} - ${eventsData[0].map.name}
+                    <div class="icon-container">
+                        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                        </svg>
+                    </div>
                 `;
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 updateEventDisplay(eventsData[0], color);
@@ -256,6 +277,11 @@ async function loadEvents() {
                 selectSelected.innerHTML = `
                     <img src="${iconUrl}" alt="${eventsData[currentIndex].map.gameMode.name} icon" onerror="this.src='https://i.ibb.co/TxLbWLnS/3094.png'">
                     ${eventsData[currentIndex].map.gameMode.name} - ${eventsData[currentIndex].map.name}
+                    <div class="icon-container">
+                        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                        </svg>
+                    </div>
                 `;
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 updateEventDisplay(eventsData[currentIndex], color);
