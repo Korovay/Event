@@ -14,9 +14,12 @@
             <h1>Upcoming Events:</h1>
             <div class="event-content">
                 <div class="event-header">
-                    <select id="eventSelect" onchange="updateEvent()">
-                        <!-- Options will be added via JavaScript -->
-                    </select>
+                    <div class="custom-select">
+                        <div class="select-selected">Choose Event:</div>
+                        <ul class="select-items" id="eventSelectList" style="display: none;">
+                            <!-- Options will be added via JavaScript -->
+                        </ul>
+                    </div>
                 </div>
                 <div class="event-info">
                     <div class="game-mode">
