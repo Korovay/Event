@@ -348,7 +348,7 @@ h1 {
 
 .spike-icon {
     width: 112px;
-    height: 212px;
+    height: 170px;
     object-fit: contain;
     position: relative;
     z-index: 2; /* Передній план */
