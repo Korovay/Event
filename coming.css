@@ -357,7 +357,7 @@ h1 {
 
 .new-icon-container {
     position: absolute;
-    top: 0;
+    top: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -365,7 +365,7 @@ h1 {
 }
 
 .new-icon {
-    width: 165px;
+    width: 130px;
     height: 121px;
     object-fit: contain;
 }
