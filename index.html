@@ -8,18 +8,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="coming.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.45/moment-timezone-with-data.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.7.7/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.6.0/moment-timezone-with-data.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.11.0/dist/axios.min.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="event-card">
-            <h1>Upcoming Events</h1>
+            <h1>Upcoming Events:</h1>
             <div class="event-content">
                 <div class="event-header">
                     <div class="custom-select">
                         <button class="select-selected" id="dropdownDefaultButton" data-dropdown-toggle="eventSelectList">
-                            Choose Event
+                            Choose Event:
                             <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                             </svg>
@@ -30,13 +30,11 @@
                 <div class="event-info">
                     <div class="game-mode">
                         <span id="gameModeName"></span>
-                        <div class="map-info">
-                            Map: <span id="mapName"></span>
-                        </div>
+                        <div class="map-info">Map: <span id="mapName"></span></div>
                     </div>
                     <div class="event-row">
                         <div class="map-container">
-                            <img id="mapThumbnail" class="map-thumbnail" alt="Map Thumbnail">
+                            <img id="mapThumbnail" class="map-thumbnail" alt="Map Thumbnail" loading="lazy">
                         </div>
                         <div class="brawler-stats" id="brawlerStats"></div>
                     </div>
@@ -45,7 +43,7 @@
                             <div class="detail-item">
                                 <span class="label">Time Until Start:</span>
                                 <div class="detail-content">
-                                    <img src="https://s6.gifyu.com/images/bbrI7.gif" class="timer-icon" alt="Timer Icon">
+                                    <img src="https://s6.gifyu.com/images/bbrI7.gif" class="timer-icon" alt="Timer Icon" loading="lazy">
                                     <span id="timeUntilStart"></span>
                                 </div>
                             </div>
@@ -56,13 +54,13 @@
                         </div>
                     </div>
                     <div class="banner-container">
-                        <img id="gameModeBanner" class="game-mode-banner" alt="Game Mode Banner">
+                        <img id="gameModeBanner" class="game-mode-banner" alt="Game Mode Banner" loading="lazy">
                     </div>
                     <div class="spike-icon-container">
                         <div class="new-icon-container">
-                            <img src="https://i.ibb.co/6CddT8H/1373.png" class="new-icon" alt="New Icon">
+                            <img src="https://i.ibb.co/6CddT8H/1373.png" class="new-icon" alt="New Icon" loading="lazy">
                         </div>
-                        <img src="https://i.ibb.co/4ZJd0g4P/emoji-spike-poop.gif" class="spike-icon" alt="Spike Icon">
+                        <img src="https://i.ibb.co/4ZJd0g4P/emoji-spike-poop.gif" class="spike-icon" alt="Spike Icon" loading="lazy">
                         <span class="copyright-text">Copyright © 2025 Korovay Inc.</span>
                     </div>
                 </div>
