@@ -375,7 +375,7 @@ h1 {
 
 .new-icon-container {
     position: absolute;
-    top: 10px; /* Опускаємо нижче з 1px до 10px */
+    top: 12px; /* Опускаємо на 20% нижче від 10px (10px * 1.2 = 12px) */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -506,7 +506,7 @@ h1 {
     }
 
     .new-icon-container {
-        top: 7px; /* Опускаємо нижче пропорційно для менших екранів */
+        top: 8.4px; /* Опускаємо на 20% нижче від 7px (7px * 1.2 = 8.4px) */
     }
 }
 
@@ -593,6 +593,6 @@ h1 {
     }
 
     .new-icon-container {
-        top: 5px; /* Опускаємо нижче пропорційно для найменших екранів */
+        top: 6px; /* Опускаємо на 20% нижче від 5px (5px * 1.2 = 6px) */
     }
 }
