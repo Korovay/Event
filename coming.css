@@ -1,9 +1,9 @@
 body {
     font-family: 'Lilita One', sans-serif;
-    background: url('https://i.ibb.co/4gSjH6b5/ey-Jw-YXRo-Ijoic3-Vw-ZXJj-ZWxs-XC9ma-Wxl-XC9-DMl-Nn-QXd-Ra-TVNWmlac0p2c-Hh-ZZy5wbmcif-Q-supercell-v.png') no-repeat center center fixed;
+    background: url('https://i.ibb.co/4gSjH6b/supercell-v.png') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,39 +14,30 @@ body {
 .event-card {
     width: 100%;
     max-width: 600px;
-    min-height: 400px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    min-height: 300px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     position: relative;
     overflow: hidden;
-    background: none;
 }
 
 .event-card:before {
     content: "";
+    position: absolute;
     height: 150%;
     width: 150%;
-    position: absolute;
-    background: linear-gradient(
-        #fd004c,
-        #fe9000,
-        #fff020,
-        #3edf4b,
-        #3363ff,
-        #b102b7,
-        #fd004c
-    );
+    background: linear-gradient(45deg, #fd004c, #fe9000, #fff020, #3edf4b, #3363ff, #b102b7, #fd004c);
     left: -25%;
     top: -25%;
-    animation: spin 2.5s infinite linear;
+    animation: spin 10s infinite linear;
     z-index: -2;
+    opacity: 0.3;
 }
 
 @keyframes spin {
@@ -59,18 +50,18 @@ body {
     content: "";
     position: absolute;
     background-color: white;
-    height: calc(100% - 10px); /* Віднімаємо 2 * 5px для межі */
-    width: calc(100% - 10px); /* Віднімаємо 2 * 5px для межі */
-    top: 5px; /* Половина товщини межі */
-    left: 5px; /* Половина товщини межі */
-    border-radius: 15px;
+    height: calc(100% - 6px);
+    width: calc(100% - 6px);
+    top: 3px;
+    left: 3px;
+    border-radius: 12px;
     z-index: -1;
 }
 
 h1 {
     margin: 0;
     color: #333;
-    font-size: 24px;
+    font-size: 22px;
     line-height: 1.2;
     text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
@@ -80,8 +71,8 @@ h1 {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-ទ
+    gap: 10px;
+}
 
 .event-header {
     width: 100%;
@@ -94,20 +85,18 @@ h1 {
 
 .select-selected {
     width: 100%;
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 8px 16px;
+    font-size: 14px;
     border-radius: 8px;
     border: none;
     font-family: 'Lilita One', sans-serif;
-    box-sizing: border-box;
     background: #1d4ed8;
     color: white;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    position: relative;
+    gap: 8px;
     transition: background-color 0.2s ease;
     box-shadow: inset 0 2px 1px 0 rgba(0, 0, 0, 0.2), 0 2px 0 0 rgba(255, 255, 255, 0.25);
 }
@@ -118,31 +107,28 @@ h1 {
 
 .select-selected:focus {
     outline: none;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
 }
 
 .select-selected .icon-container {
+    width: 24px;
+    height: 24px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    position: relative;
-    z-index: 10;
 }
 
 .select-selected .icon-container img {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     object-fit: contain;
 }
 
 .select-selected svg {
-    width: 12px;
-    height: 12px;
-    stroke: currentColor;
+    width: 10px;
+    height: 10px;
 }
 
 .custom-select .select-items[style*="display: none"] ~ .select-selected::before {
@@ -151,10 +137,10 @@ h1 {
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     background-color: #3b82f6;
-    border-radius: 9999px;
+    border-radius: 50%;
     z-index: 10;
 }
 
@@ -164,25 +150,19 @@ h1 {
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     background-color: #60a5fa;
-    border-radius: 9999px;
+    border-radius: 50%;
     opacity: 0.75;
     animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 @keyframes ping {
     75%, 100% {
-        transform: translateY(-50%) scale(2);
+        transform: translateY(-50%) scale(1.8);
         opacity: 0;
     }
-}
-
-.select-selected img:not(.icon-container img) {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
 }
 
 .select-items {
@@ -193,23 +173,23 @@ h1 {
     background: white;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-    max-height: 200px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    max-height: 180px;
     overflow-y: auto;
     z-index: 1000;
     list-style: none;
-    padding: 8px 0;
+    padding: 6px 0;
     margin: 4px 0 0 0;
 }
 
 .select-items li {
-    padding: 8px 16px;
-    font-size: 14px;
+    padding: 6px 12px;
+    font-size: 13px;
     color: #374151;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
@@ -218,8 +198,8 @@ h1 {
 }
 
 .select-items li img {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     object-fit: contain;
 }
 
@@ -227,17 +207,17 @@ h1 {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
 }
 
 .game-mode {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
 }
 
 #gameModeName {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     color: #333;
     text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
@@ -245,27 +225,26 @@ h1 {
 
 .map-info {
     color: #666;
-    font-size: 14px;
+    font-size: 13px;
     text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
 .event-row {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    gap: 10px;
+    align-items: flex-start;
+    gap: 8px;
 }
 
 .map-container {
-    padding: 10px;
+    padding: 8px;
     background: #f5f5f5;
-    border-radius: 10px;
-    display: inline-block;
+    border-radius: 8px;
     flex-shrink: 0;
 }
 
 .map-thumbnail {
-    width: 150px;
+    width: 120px;
     height: auto;
     object-fit: cover;
     border-radius: 5px;
@@ -273,14 +252,13 @@ h1 {
 }
 
 .map-thumbnail:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 .brawler-stats {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    gap: 10px;
+    gap: 8px;
     flex-grow: 1;
     min-width: 0;
 }
@@ -288,20 +266,20 @@ h1 {
 .stats-column {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    width: 48%;
+    gap: 6px;
+    width: 50%;
 }
 
 .stat-row {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
 }
 
 .stat-brawler-img-container {
-    width: 30px;
-    height: 30px;
-    padding: 5px;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
     background: #f5f5f5;
     border-radius: 50%;
     display: flex;
@@ -310,8 +288,8 @@ h1 {
 }
 
 .stat-brawler-img {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
     border-radius: 50%;
 }
@@ -319,9 +297,9 @@ h1 {
 .stat-winrate {
     font-family: 'Lilita One', sans-serif;
     background: #f5f5f5;
-    padding: 4px 8px;
+    padding: 3px 6px;
     border-radius: 3px;
-    font-size: 14px;
+    font-size: 12px;
     text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
@@ -330,9 +308,9 @@ h1 {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 10px 0;
+    padding: 8px 0;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     border-top: 1px solid #eee;
 }
 
@@ -344,59 +322,49 @@ h1 {
 
 .detail-item {
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
+    align-items: center;
+    gap: 8px;
 }
 
 .detail-item.right-aligned {
     justify-content: flex-end;
 }
 
-.detail-item .label {
-    margin-right: 10px;
-}
-
 .detail-content {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
 }
 
 .label {
     color: #666;
-    font-size: 14px;
+    font-size: 13px;
     text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
-#timeUntilStart {
-    font-size: 14px;
-    color: #333;
-    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
-}
-
+#timeUntilStart,
 #eventDate {
-    font-size: 14px;
+    font-size: 13px;
     color: #333;
     text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
 .banner-container {
-    padding: 10px;
+    padding: 8px;
     background: #f5f5f5;
-    border-radius: 10px;
-    display: inline-block;
+    border-radius: 8px;
 }
 
 .game-mode-banner {
     width: 100%;
-    max-height: 120px;
+    max-height: 100px;
     object-fit: cover;
     border-radius: 5px;
 }
 
 .timer-icon {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     vertical-align: middle;
 }
 
@@ -406,23 +374,23 @@ h1 {
     justify-content: center;
     align-items: center;
     padding: 5px;
-    gap: 10px;
+    gap: 8px;
     position: relative;
-    margin-top: -30px;
+    margin-top: -20px;
 }
 
 .spike-icon {
-    width: 89.6px;
-    height: 136px;
+    width: 64px;
+    height: 96px;
     object-fit: contain;
     position: relative;
     z-index: 2;
-    transform: translateY(-10px);
+    transform: translateY(-8px);
 }
 
 .new-icon-container {
     position: absolute;
-    top: 20px;
+    top: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -430,14 +398,14 @@ h1 {
 }
 
 .new-icon {
-    width: 104px;
-    height: 96.8px;
+    width: 80px;
+    height: 72px;
     object-fit: contain;
 }
 
 .copyright-text {
     font-family: 'Lilita One', sans-serif;
-    font-size: 16px;
+    font-size: 13px;
     color: #333;
     text-align: center;
     position: relative;
@@ -447,134 +415,43 @@ h1 {
 
 @media screen and (max-width: 600px) {
     .event-card {
-        padding: 15px;
+        padding: 12px;
         max-width: 100%;
     }
 
     h1 {
-        font-size: 20px;
-    }
-
-    .select-selected {
-        font-size: 14px;
-        padding: 8px 16px;
-    }
-
-    .select-items li {
-        font-size: 14px;
-        padding: 8px 12px;
-    }
-
-    #gameModeName {
         font-size: 18px;
     }
 
+    .select-selected {
+        font-size: 13px;
+        padding: 6px 12px;
+    }
+
+    .select-items li {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    #gameModeName {
+        font-size: 16px;
+    }
+
     .map-container {
-        padding: 8px;
+        padding: 6px;
     }
 
     .map-thumbnail {
         width: 100px;
-        height: auto;
-        transition: transform 0.3s ease;
-    }
-
-    .map-thumbnail:hover {
-        transform: scale(1.2);
     }
 
     .brawler-stats {
-        min-width: 0;
+        flex-direction: column;
+        gap: 6px;
     }
 
     .stats-column {
-        width: 48%;
-    }
-
-    .stat-brawler-img-container {
-        padding: 4px;
-    }
-
-    .stat-brawler-img {
-        width: 25px;
-        height: 25px;
-    }
-
-    .stat-winrate {
-        font-size: 12px;
-    }
-
-    .banner-container {
-        padding: 8px;
-    }
-
-    .timer-icon {
-        width: 20px;
-        height: 20px;
-    }
-
-    .select-selected .icon-container {
-        width: 20px;
-        height: 20px;
-    }
-
-    .select-selected .icon-container img {
-        width: 16px;
-        height: 16px;
-    }
-
-    .select-selected svg {
-        width: 10px;
-        height: 10px;
-    }
-
-    #timeUntilStart,
-    #eventDate {
-        font-size: 12px;
-    }
-
-    .spike-icon {
-        width: 64px;
-        height: 120px;
-        transform: translateY(-37.5px);
-    }
-
-    .new-icon {
-        width: 99px;
-        height: 72.6px;
-    }
-
-    .copyright-text {
-        font-size: 14px;
-        transform: translateY(-15px);
-    }
-
-    .spike-icon-container {
-        margin-top: -20px;
-    }
-
-    .new-icon-container {
-        top: 8.4px;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    .event-row {
-        flex-direction: row;
-        gap: 5px;
-    }
-
-    .map-container {
-        padding: 5px;
-    }
-
-    .map-thumbnail {
-        width: 80px;
-        transition: transform 0.3s ease;
-    }
-
-    .map-thumbnail:hover {
-        transform: scale(1.2);
+        width: 100%;
     }
 
     .stat-brawler-img-container {
@@ -582,27 +459,26 @@ h1 {
     }
 
     .stat-brawler-img {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
     }
 
     .stat-winrate {
-        padding: 2px 4px;
-        font-size: 10px;
+        font-size: 11px;
     }
 
     .banner-container {
-        padding: 5px;
+        padding: 6px;
     }
 
     .timer-icon {
-        width: 20px;
-        height: 20px;
+        width: 14px;
+        height: 14px;
     }
 
     .select-selected .icon-container {
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
     }
 
     .select-selected .icon-container img {
@@ -617,23 +493,23 @@ h1 {
 
     #timeUntilStart,
     #eventDate {
-        font-size: 10px;
+        font-size: 12px;
     }
 
     .spike-icon {
         width: 48px;
-        height: 90.4px;
-        transform: translateY(-30px);
+        height: 72px;
+        transform: translateY(-6px);
     }
 
     .new-icon {
-        width: 79.2px;
-        height: 58.08px;
+        width: 64px;
+        height: 58px;
     }
 
     .copyright-text {
         font-size: 12px;
-        transform: translateY(-12px);
+        transform: translateY(-10px);
     }
 
     .spike-icon-container {
@@ -641,6 +517,88 @@ h1 {
     }
 
     .new-icon-container {
-        top: 6px;
+        top: 10px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .event-row {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .map-container {
+        padding: 5px;
+    }
+
+    .map-thumbnail {
+        width: 80px;
+    }
+
+    .stat-brawler-img-container {
+        padding: 2px;
+    }
+
+    .stat-brawler-img {
+        width: 16px;
+        height: 16px;
+    }
+
+    .stat-winrate {
+        padding: 2px 4px;
+        font-size: 10px;
+    }
+
+    .banner-container {
+        padding: 5px;
+    }
+
+    .timer-icon {
+        width: 12px;
+        height: 12px;
+    }
+
+    .select-selected .icon-container {
+        width: 18px;
+        height: 18px;
+    }
+
+    .select-selected .icon-container img {
+        width: 12px;
+        height: 12px;
+    }
+
+    .select-selected svg {
+        width: 6px;
+        height: 6px;
+    }
+
+    #timeUntilStart,
+    #eventDate {
+        font-size: 11px;
+    }
+
+    .spike-icon {
+        width: 40px;
+        height: 60px;
+        transform: translateY(-5px);
+    }
+
+    .new-icon {
+        width: 56px;
+        height: 50px;
+    }
+
+    .copyright-text {
+        font-size: 11px;
+        transform: translateY(-8px);
+    }
+
+    .spike-icon-container {
+        margin-top: -12px;
+    }
+
+    .new-icon-container {
+        top: 8px;
     }
 }
