@@ -72,16 +72,16 @@ h1 {
     color: #333;
     font-size: 24px;
     line-height: 1.2;
+    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
-/* Решта стилів залишається без змін */
 .event-content {
     width: 100%;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
+ទ
 
 .event-header {
     width: 100%;
@@ -210,6 +210,7 @@ h1 {
     display: flex;
     align-items: center;
     gap: 10px;
+    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
 .select-items li:hover {
@@ -239,11 +240,13 @@ h1 {
     font-size: 20px;
     font-weight: bold;
     color: #333;
+    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
 .map-info {
     color: #666;
     font-size: 14px;
+    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
 .event-row {
@@ -319,6 +322,7 @@ h1 {
     padding: 4px 8px;
     border-radius: 3px;
     font-size: 14px;
+    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
 .event-details {
@@ -361,16 +365,19 @@ h1 {
 .label {
     color: #666;
     font-size: 14px;
+    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
 #timeUntilStart {
     font-size: 14px;
     color: #333;
+    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
 #eventDate {
     font-size: 14px;
     color: #333;
+    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
 .banner-container {
@@ -435,6 +442,7 @@ h1 {
     text-align: center;
     position: relative;
     z-index: 2;
+    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
 @media screen and (max-width: 600px) {
