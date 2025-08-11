@@ -1,4 +1,4 @@
-const colors = ['#DAF7A6', '#DAA520', '#FFE4E1', '#B0C4DE', '#DA70D6'];
+// up.js
 let eventsData = [];
 
 // Функція для отримання поточного часу в Україні
@@ -60,7 +60,7 @@ function formatBrawlerStats(stats) {
 }
 
 // Функція для оновлення відображення події
-function updateEventDisplay(event, color) {
+function updateEventDisplay(event) {
     document.getElementById('gameModeName').textContent = event.map.gameMode.name;
     document.getElementById('mapName').textContent = event.map.name;
     document.getElementById('mapThumbnail').src = `https://cdn.brawlify.com/maps/regular/${event.map.id}.png`;
@@ -68,7 +68,6 @@ function updateEventDisplay(event, color) {
     document.getElementById('timeUntilStart').textContent = getTimeUntilStart(event.startTime);
     document.getElementById('eventDate').textContent = formatDate(event.startTime);
     document.getElementById('gameModeBanner').src = `https://cdn-misc.brawlify.com/gamemode/header/${event.map.gameMode.hash}.png`;
-    document.querySelector('.event-card').style.border = `5px solid ${color}`;
 }
 
 // Функція для отримання подій з API
@@ -155,12 +154,10 @@ async function loadEvents() {
         document.getElementById('timeUntilStart').textContent = 'Очікуємо нові події';
         document.getElementById('eventDate').textContent = '';
         document.getElementById('gameModeBanner').src = '';
-        document.querySelector('.event-card').style.border = `5px solid #ccc`;
         selectSelected.textContent = 'Немає майбутніх подій';
     } else {
         updateEventSelect(selectList, eventsData);
-        const initialColor = colors[Math.floor(Math.random() * colors.length)];
-        updateEventDisplay(eventsData[0], initialColor);
+        updateEventDisplay(eventsData[0]);
         const gameModeId = eventsData[0].map.gameMode?.scId || '';
         const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
         selectSelected.innerHTML = `
@@ -200,8 +197,7 @@ async function loadEvents() {
         `;
         selectList.style.display = 'none';
 
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        updateEventDisplay(selectedEvent, color);
+        updateEventDisplay(selectedEvent);
 
         if (selectedIndex !== '0') {
             setTimeout(() => {
@@ -216,8 +212,7 @@ async function loadEvents() {
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                     </svg>
                 `;
-                const resetColor = colors[Math.floor(Math.random() * colors.length)];
-                updateEventDisplay(eventsData[0], resetColor);
+                updateEventDisplay(eventsData[0]);
             }, 60000);
         }
     });
@@ -244,7 +239,6 @@ async function loadEvents() {
             document.getElementById('timeUntilStart').textContent = 'Очікуємо нові події';
             document.getElementById('eventDate').textContent = '';
             document.getElementById('gameModeBanner').src = '';
-            document.querySelector('.event-card').style.border = `5px solid #ccc`;
             selectSelected.textContent = 'Немає майбутніх подій';
         } else {
             updateEventSelect(selectList, eventsData);
@@ -268,8 +262,7 @@ async function loadEvents() {
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                     </svg>
                 `;
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                updateEventDisplay(eventsData[0], color);
+                updateEventDisplay(eventsData[0]);
             } else {
                 const gameModeId = eventsData[currentIndex].map.gameMode?.scId || '';
                 const iconUrl = gameModeId ? `https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png` : 'https://i.ibb.co/TxLbWLnS/3094.png';
@@ -282,8 +275,7 @@ async function loadEvents() {
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                     </svg>
                 `;
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                updateEventDisplay(eventsData[currentIndex], color);
+                updateEventDisplay(eventsData[currentIndex]);
             }
 
             if (previousEventsCount !== eventsData.length) {
