@@ -1,6 +1,6 @@
 body {
     font-family: 'Lilita One', sans-serif;
-    background: url('https://i.ibb.co/jsV6bxh/2423.png') no-repeat center center fixed;
+    background: url('https://i.ibb.co/4gSjH6b5/ey-Jw-YXRo-Ijoic3-Vw-ZXJj-ZWxs-XC9ma-Wxl-XC9-DMl-Nn-QXd-Ra-TVNWmlac0p2c-Hh-ZZy5wbmcif-Q-supercell-v.png') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
     padding: 20px;
@@ -361,12 +361,12 @@ h1 {
     padding: 5px;
     gap: 10px;
     position: relative;
-    margin-top: -30px; /* Піднято вище до banner-container */
+    margin-top: -30px;
 }
 
 .spike-icon {
-    width: 89.6px; /* Зменшено на 20% від 112px */
-    height: 136px; /* Зменшено на 20% від 170px */
+    width: 89.6px;
+    height: 136px;
     object-fit: contain;
     position: relative;
     z-index: 2;
@@ -375,7 +375,7 @@ h1 {
 
 .new-icon-container {
     position: absolute;
-    top: 1px;
+    top: 10px; /* Опускаємо нижче з 1px до 10px */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -383,8 +383,8 @@ h1 {
 }
 
 .new-icon {
-    width: 104px; /* Зменшено на 20% від 130px */
-    height: 96.8px; /* Зменшено на 20% від 121px */
+    width: 104px;
+    height: 96.8px;
     object-fit: contain;
 }
 
@@ -486,14 +486,14 @@ h1 {
     }
 
     .spike-icon {
-        width: 64px; /* Зменшено на 20% від 80px */
-        height: 120px; /* Зменшено на 20% від 150px */
+        width: 64px;
+        height: 120px;
         transform: translateY(-37.5px);
     }
 
     .new-icon {
-        width: 99px; /* Зменшено на 20% від 123.75px */
-        height: 72.6px; /* Зменшено на 20% від 90.75px */
+        width: 99px;
+        height: 72.6px;
     }
 
     .copyright-text {
@@ -502,7 +502,11 @@ h1 {
     }
 
     .spike-icon-container {
-        margin-top: -20px; /* Піднято вище для менших екранів */
+        margin-top: -20px;
+    }
+
+    .new-icon-container {
+        top: 7px; /* Опускаємо нижче пропорційно для менших екранів */
     }
 }
 
@@ -569,14 +573,14 @@ h1 {
     }
 
     .spike-icon {
-        width: 48px; /* Зменшено на 20% від 60px */
-        height: 90.4px; /* Зменшено на 20% від 113px */
+        width: 48px;
+        height: 90.4px;
         transform: translateY(-30px);
     }
 
     .new-icon {
-        width: 79.2px; /* Зменшено на 20% від 99px */
-        height: 58.08px; /* Зменшено на 20% від 72.6px */
+        width: 79.2px;
+        height: 58.08px;
     }
 
     .copyright-text {
@@ -585,6 +589,10 @@ h1 {
     }
 
     .spike-icon-container {
-        margin-top: -15px; /* Піднято вище для найменших екранів */
+        margin-top: -15px;
+    }
+
+    .new-icon-container {
+        top: 5px; /* Опускаємо нижче пропорційно для найменших екранів */
     }
 }
