@@ -59,10 +59,10 @@ body {
     content: "";
     position: absolute;
     background-color: white;
-    height: calc(100% - 10px);
-    width: calc(100% - 10px);
-    top: 5px;
-    left: 5px;
+    height: calc(100% - 10px); /* Віднімаємо 2 * 5px для межі */
+    width: calc(100% - 10px); /* Віднімаємо 2 * 5px для межі */
+    top: 5px; /* Половина товщини межі */
+    left: 5px; /* Половина товщини межі */
     border-radius: 15px;
     z-index: -1;
 }
@@ -262,7 +262,7 @@ h1 {
     border-radius: 10px;
     display: inline-block;
     flex-shrink: 0;
-    position: relative;
+    position: relative; /* Added for positioning the icon */
 }
 
 .map-thumbnail {
@@ -278,13 +278,12 @@ h1 {
 }
 
 .see-map-icon {
+    width: 28px;
+    height: 29px;
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 95px;
-    height: 96px;
-    object-fit: contain;
-    z-index: 2;
+    z-index: 10;
     transition: opacity 0.3s ease;
 }
 
@@ -500,8 +499,8 @@ h1 {
     }
 
     .see-map-icon {
-        width: 71.25px;
-        height: 72px;
+        width: 20px;
+        height: 20px;
         top: 8px;
         right: 8px;
     }
@@ -601,8 +600,8 @@ h1 {
     }
 
     .see-map-icon {
-        width: 57px;
-        height: 57.6px;
+        width: 16px;
+        height: 16px;
         top: 5px;
         right: 5px;
     }
