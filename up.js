@@ -1,4 +1,4 @@
-// up.js
+
 let eventsData = [];
 
 // Функція для отримання поточного часу в Україні
@@ -37,7 +37,12 @@ function formatBrawlerStats(stats) {
                      alt="${stat.brawler}"
                      onerror="this.src='https://cdn.brawlify.com/brawlers/borderless/16000000.png'">
             </div>
-            <span class="stat-winrate">${Math.round(stat.winRate)}%</span>
+            <span class="stat-winrate">
+                <div class="flip">
+                    <div><div>${Math.round(stat.winRate)}%</div></div>
+                    <div><div>Win Rate</div></div>
+                </div>
+            </span>
         </div>
     `).join('');
 
@@ -49,7 +54,12 @@ function formatBrawlerStats(stats) {
                      alt="${stat.brawler}"
                      onerror="this.src='https://cdn.brawlify.com/brawlers/borderless/16000000.png'">
             </div>
-            <span class="stat-winrate">${Math.round(stat.winRate)}%</span>
+            <span class="stat-winrate">
+                <div class="flip">
+                    <div><div>${Math.round(stat.winRate)}%</div></div>
+                    <div><div>Win Rate</div></div>
+                </div>
+            </span>
         </div>
     `).join('');
 
@@ -77,7 +87,7 @@ async function fetchEvents() {
         const data = response.data;
 
         console.log('Повні дані з API:', JSON.stringify(data, null, 2));
-        console.log('Ключі в data:', Object.keys(data));
+        console.log('Ключі в data:',25 Object.keys(data));
 
         const now = getUkraineTime();
         console.log('Поточний час в Україні:', now.format('DD.MM.YYYY HH:mm:ss'));
@@ -89,15 +99,15 @@ async function fetchEvents() {
             return [];
         }
 
-        const filteredUpcomingEvents = upcomingEvents.filter(event => {
+        const filteredUpcominEvents = upcomingEvents.filter(event => {
             const start = moment(event.startTime).tz('Europe/Kyiv');
             const isUpcoming = start.isAfter(now);
             console.log(`Подія: ${event.map.gameMode.name} - ${event.map.name}, Start: ${start.format()}, Now: ${now.format()}, Майбутня: ${isUpcoming}`);
             return isUpcoming;
         });
 
-        console.log('Фільтровані майбутні події:', JSON.stringify(filteredUpcomingEvents, null, 2));
-        return filteredUpcomingEvents;
+        console.log('Фільтровані майбутні події:', JSON.stringify(filteredUpcominEvents, null, 2));
+        return filteredUpcominEvents;
     } catch (error) {
         console.error('Помилка завантаження подій:', error.message);
         if (error.response) {
