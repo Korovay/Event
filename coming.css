@@ -1,43 +1,51 @@
 body {
     font-family: 'Lilita One', sans-serif;
-    background: url('https://i.ibb.co/jsV6bxh/2423.png') no-repeat center center fixed;
+    background: url('https://i.ibb.co/4gSjH6b5/ey-Jw-YXRo-Ijoic3-Vw-ZXJj-ZWxs-XC9ma-Wxl-XC9-DMl-Nn-QXd-Ra-TVNWmlac0p2c-Hh-ZZy5wbmcif-Q-supercell-v.png') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
-    padding: 10px;
+    padding: 10px; /* Зменшено padding для компактності */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    overflow-x: hidden; /* Запобігає горизонтальній прокрутці */
 }
 
 .event-card {
     width: 100%;
     max-width: 600px;
-    min-height: 300px;
-    background: rgba(255, 255, 255, 0.95);
+    min-height: 350px; /* Зменшено для компактності */
+    background: none;
     border-radius: 15px;
-    padding: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 15px; /* Зменшено padding */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 10px; /* Зменшено gap */
     position: relative;
     overflow: hidden;
 }
 
 .event-card:before {
     content: "";
-    position: absolute;
     height: 150%;
     width: 150%;
-    background: linear-gradient(45deg, #fd004c, #fe9000, #fff020, #3edf4b, #3363ff, #b102b7, #fd004c);
+    position: absolute;
+    background: linear-gradient(
+        #fd004c,
+        #fe9000,
+        #fff020,
+        #3edf4b,
+        #3363ff,
+        #b102b7,
+        #fd004c
+    );
     left: -25%;
     top: -25%;
-    animation: spin 10s infinite linear;
+    animation: spin 2.5s infinite linear;
     z-index: -2;
-    opacity: 0.3;
 }
 
 @keyframes spin {
@@ -50,10 +58,10 @@ body {
     content: "";
     position: absolute;
     background-color: white;
-    height: calc(100% - 6px);
-    width: calc(100% - 6px);
-    top: 3px;
-    left: 3px;
+    height: calc(100% - 8px);
+    width: calc(100% - 8px);
+    top: 4px;
+    left: 4px;
     border-radius: 12px;
     z-index: -1;
 }
@@ -61,17 +69,16 @@ body {
 h1 {
     margin: 0;
     color: #333;
-    font-size: 22px;
+    font-size: 1.5rem; /* Змінено на rem для масштабування */
     line-height: 1.2;
     text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
 .event-content {
-    width: 100%;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 10px; /* Зменшено gap */
 }
 
 .event-header {
@@ -85,9 +92,9 @@ h1 {
 
 .select-selected {
     width: 100%;
-    padding: 8px 16px;
-    font-size: 14px;
-    border-radius: 8px;
+    padding: 8px 16px; /* Зменшено padding */
+    font-size: 0.9rem; /* Зменшено розмір шрифту */
+    border-radius: 6px;
     border: none;
     font-family: 'Lilita One', sans-serif;
     background: #1d4ed8;
@@ -111,7 +118,7 @@ h1 {
 }
 
 .select-selected .icon-container {
-    width: 24px;
+    width: 24px; /* Зменшено розмір */
     height: 24px;
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 50%;
@@ -121,48 +128,14 @@ h1 {
 }
 
 .select-selected .icon-container img {
-    width: 16px;
+    width: 16px; /* Зменшено розмір */
     height: 16px;
     object-fit: contain;
 }
 
 .select-selected svg {
-    width: 10px;
+    width: 10px; /* Зменшено розмір */
     height: 10px;
-}
-
-.custom-select .select-items[style*="display: none"] ~ .select-selected::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 10px;
-    background-color: #3b82f6;
-    border-radius: 50%;
-    z-index: 10;
-}
-
-.custom-select .select-items[style*="display: none"] ~ .select-selected::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 10px;
-    background-color: #60a5fa;
-    border-radius: 50%;
-    opacity: 0.75;
-    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
-@keyframes ping {
-    75%, 100% {
-        transform: translateY(-50%) scale(1.8);
-        opacity: 0;
-    }
 }
 
 .select-items {
@@ -172,9 +145,9 @@ h1 {
     right: 0;
     background: white;
     border: 1px solid #e5e7eb;
-    border-radius: 8px;
+    border-radius: 6px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    max-height: 180px;
+    max-height: 180px; /* Зменшено для компактності */
     overflow-y: auto;
     z-index: 1000;
     list-style: none;
@@ -183,14 +156,13 @@ h1 {
 }
 
 .select-items li {
-    padding: 6px 12px;
-    font-size: 13px;
+    padding: 6px 12px; /* Зменшено padding */
+    font-size: 0.85rem; /* Зменшено розмір шрифту */
     color: #374151;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 8px;
-    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
 .select-items li:hover {
@@ -198,7 +170,7 @@ h1 {
 }
 
 .select-items li img {
-    width: 16px;
+    width: 16px; /* Зменшено розмір */
     height: 16px;
     object-fit: contain;
 }
@@ -207,77 +179,76 @@ h1 {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 10px; /* Зменшено gap */
 }
 
 .game-mode {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 5px;
 }
 
 #gameModeName {
-    font-size: 18px;
+    font-size: 1.2rem; /* Зменшено розмір */
     font-weight: bold;
     color: #333;
-    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
 .map-info {
     color: #666;
-    font-size: 13px;
-    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
+    font-size: 0.85rem; /* Зменшено розмір */
 }
 
 .event-row {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap; /* Додано для адаптивності */
     align-items: flex-start;
-    gap: 8px;
+    gap: 8px; /* Зменшено gap */
 }
 
 .map-container {
-    padding: 8px;
+    padding: 8px; /* Зменшено padding */
     background: #f5f5f5;
     border-radius: 8px;
     flex-shrink: 0;
 }
 
 .map-thumbnail {
-    width: 120px;
+    width: 120px; /* Зменшено розмір */
     height: auto;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 4px;
     transition: transform 0.3s ease;
 }
 
 .map-thumbnail:hover {
-    transform: scale(1.1);
+    transform: scale(1.1); /* Зменшено масштаб для компактності */
 }
 
 .brawler-stats {
     display: flex;
-    flex-direction: row;
-    gap: 8px;
+    flex-wrap: wrap; /* Додано для адаптивності */
+    justify-content: space-between;
+    gap: 8px; /* Зменшено gap */
     flex-grow: 1;
-    min-width: 0;
 }
 
 .stats-column {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    width: 50%;
+    gap: 6px; /* Зменшено gap */
+    width: 48%;
+    min-width: 120px; /* Додано для уникнення надмірного стискання */
 }
 
 .stat-row {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
 }
 
 .stat-brawler-img-container {
-    width: 24px;
+    width: 24px; /* Зменшено розмір */
     height: 24px;
     padding: 4px;
     background: #f5f5f5;
@@ -288,8 +259,8 @@ h1 {
 }
 
 .stat-brawler-img {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     object-fit: contain;
     border-radius: 50%;
 }
@@ -297,20 +268,16 @@ h1 {
 .stat-winrate {
     font-family: 'Lilita One', sans-serif;
     background: #f5f5f5;
-    padding: 3px 6px;
+    padding: 3px 6px; /* Зменшено padding */
     border-radius: 3px;
-    font-size: 12px;
-    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
+    font-size: 0.8rem; /* Зменшено розмір */
 }
 
 .event-details {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 8px 0;
     flex-direction: column;
-    gap: 8px;
+    gap: 8px; /* Зменшено gap */
+    padding: 8px 0;
     border-top: 1px solid #eee;
 }
 
@@ -318,6 +285,8 @@ h1 {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    flex-wrap: wrap; /* Додано для адаптивності */
+    gap: 8px;
 }
 
 .detail-item {
@@ -333,39 +302,36 @@ h1 {
 .detail-content {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
 }
 
 .label {
     color: #666;
-    font-size: 13px;
-    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
+    font-size: 0.85rem; /* Зменшено розмір */
 }
 
 #timeUntilStart,
 #eventDate {
-    font-size: 13px;
+    font-size: 0.85rem; /* Зменшено розмір */
     color: #333;
-    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
 
 .banner-container {
-    padding: 8px;
+    padding: 8px; /* Зменшено padding */
     background: #f5f5f5;
     border-radius: 8px;
 }
 
 .game-mode-banner {
     width: 100%;
-    max-height: 100px;
+    max-height: 100px; /* Зменшено для компактності */
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 4px;
 }
 
 .timer-icon {
-    width: 16px;
+    width: 16px; /* Зменшено розмір */
     height: 16px;
-    vertical-align: middle;
 }
 
 .spike-icon-container {
@@ -374,67 +340,58 @@ h1 {
     justify-content: center;
     align-items: center;
     padding: 5px;
-    gap: 8px;
+    gap: 8px; /* Зменшено gap */
     position: relative;
-    margin-top: -20px;
+    margin-top: -20px; /* Зменшено відступ */
 }
 
 .spike-icon {
-    width: 64px;
-    height: 96px;
+    width: 70px; /* Зменшено розмір */
+    height: auto;
     object-fit: contain;
-    position: relative;
-    z-index: 2;
     transform: translateY(-8px);
 }
 
 .new-icon-container {
     position: absolute;
     top: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
 }
 
 .new-icon {
-    width: 80px;
-    height: 72px;
-    object-fit: contain;
+    width: 80px; /* Зменшено розмір */
+    height: auto;
 }
 
 .copyright-text {
-    font-family: 'Lilita One', sans-serif;
-    font-size: 13px;
+    font-size: 0.9rem; /* Зменшено розмір */
     color: #333;
     text-align: center;
-    position: relative;
-    z-index: 2;
-    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
+    transform: translateY(-10px);
 }
 
+/* Медіа-запити для адаптивності */
 @media screen and (max-width: 600px) {
     .event-card {
-        padding: 12px;
+        padding: 10px;
         max-width: 100%;
     }
 
     h1 {
-        font-size: 18px;
+        font-size: 1.2rem;
     }
 
     .select-selected {
-        font-size: 13px;
+        font-size: 0.85rem;
         padding: 6px 12px;
     }
 
     .select-items li {
-        font-size: 12px;
+        font-size: 0.8rem;
         padding: 6px 10px;
     }
 
     #gameModeName {
-        font-size: 16px;
+        font-size: 1rem;
     }
 
     .map-container {
@@ -445,26 +402,28 @@ h1 {
         width: 100px;
     }
 
-    .brawler-stats {
-        flex-direction: column;
-        gap: 6px;
+    .stats-column {
+        width: 100%; /* Змінено для компактності */
+        min-width: 0;
     }
 
-    .stats-column {
-        width: 100%;
+    .brawler-stats {
+        flex-direction: column; /* Вертикальне розташування на малих екранах */
     }
 
     .stat-brawler-img-container {
+        width: 20px;
+        height: 20px;
         padding: 3px;
     }
 
     .stat-brawler-img {
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
     }
 
     .stat-winrate {
-        font-size: 11px;
+        font-size: 0.75rem;
     }
 
     .banner-container {
@@ -491,25 +450,18 @@ h1 {
         height: 8px;
     }
 
-    #timeUntilStart,
-    #eventDate {
-        font-size: 12px;
-    }
-
     .spike-icon {
-        width: 48px;
-        height: 72px;
+        width: 60px;
         transform: translateY(-6px);
     }
 
     .new-icon {
-        width: 64px;
-        height: 58px;
+        width: 70px;
     }
 
     .copyright-text {
-        font-size: 12px;
-        transform: translateY(-10px);
+        font-size: 0.8rem;
+        transform: translateY(-8px);
     }
 
     .spike-icon-container {
@@ -523,8 +475,8 @@ h1 {
 
 @media screen and (max-width: 400px) {
     .event-row {
-        flex-direction: column;
-        gap: 6px;
+        flex-direction: column; /* Вертикальне розташування для дуже малих екранів */
+        gap: 5px;
     }
 
     .map-container {
@@ -536,17 +488,19 @@ h1 {
     }
 
     .stat-brawler-img-container {
+        width: 18px;
+        height: 18px;
         padding: 2px;
     }
 
     .stat-brawler-img {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
     }
 
     .stat-winrate {
+        font-size: 0.7rem;
         padding: 2px 4px;
-        font-size: 10px;
     }
 
     .banner-container {
@@ -569,29 +523,22 @@ h1 {
     }
 
     .select-selected svg {
-        width: 6px;
-        height: 6px;
-    }
-
-    #timeUntilStart,
-    #eventDate {
-        font-size: 11px;
+        width: 7px;
+        height: 7px;
     }
 
     .spike-icon {
-        width: 40px;
-        height: 60px;
+        width: 50px;
         transform: translateY(-5px);
     }
 
     .new-icon {
-        width: 56px;
-        height: 50px;
+        width: 60px;
     }
 
     .copyright-text {
-        font-size: 11px;
-        transform: translateY(-8px);
+        font-size: 0.7rem;
+        transform: translateY(-6px);
     }
 
     .spike-icon-container {
