@@ -436,6 +436,8 @@ h1 {
     text-align: center;
     position: relative;
     z-index: 2;
+    margin-top: -20px;
+
 }
 
 @media screen and (max-width: 600px) {
