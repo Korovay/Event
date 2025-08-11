@@ -3,27 +3,27 @@ body {
     background: url('https://i.ibb.co/jsV6bxh/2423.png') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
-    padding: 10px; /* Зменшено padding для компактності */
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-    overflow-x: hidden; /* Запобігає горизонтальній прокрутці */
+    overflow-x: hidden;
 }
 
 .event-card {
     width: 100%;
     max-width: 600px;
-    min-height: 350px; /* Зменшено для компактності */
+    min-height: 350px;
     background: none;
     border-radius: 15px;
-    padding: 15px; /* Зменшено padding */
+    padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Зменшено gap */
+    gap: 10px;
     position: relative;
     overflow: hidden;
 }
@@ -69,7 +69,7 @@ body {
 h1 {
     margin: 0;
     color: #333;
-    font-size: 1.5rem; /* Змінено на rem для масштабування */
+    font-size: 1.5rem;
     line-height: 1.2;
     text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 }
@@ -78,7 +78,7 @@ h1 {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Зменшено gap */
+    gap: 10px;
 }
 
 .event-header {
@@ -92,8 +92,8 @@ h1 {
 
 .select-selected {
     width: 100%;
-    padding: 8px 16px; /* Зменшено padding */
-    font-size: 0.9rem; /* Зменшено розмір шрифту */
+    padding: 8px 16px;
+    font-size: 0.9rem;
     border-radius: 6px;
     border: none;
     font-family: 'Lilita One', sans-serif;
@@ -118,7 +118,7 @@ h1 {
 }
 
 .select-selected .icon-container {
-    width: 24px; /* Зменшено розмір */
+    width: 24px;
     height: 24px;
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 50%;
@@ -128,13 +128,13 @@ h1 {
 }
 
 .select-selected .icon-container img {
-    width: 16px; /* Зменшено розмір */
+    width: 16px;
     height: 16px;
     object-fit: contain;
 }
 
 .select-selected svg {
-    width: 10px; /* Зменшено розмір */
+    width: 10px;
     height: 10px;
 }
 
@@ -147,7 +147,7 @@ h1 {
     border: 1px solid #e5e7eb;
     border-radius: 6px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    max-height: 180px; /* Зменшено для компактності */
+    max-height: 180px;
     overflow-y: auto;
     z-index: 1000;
     list-style: none;
@@ -156,8 +156,8 @@ h1 {
 }
 
 .select-items li {
-    padding: 6px 12px; /* Зменшено padding */
-    font-size: 0.85rem; /* Зменшено розмір шрифту */
+    padding: 6px 12px;
+    font-size: 0.85rem;
     color: #374151;
     cursor: pointer;
     display: flex;
@@ -170,7 +170,7 @@ h1 {
 }
 
 .select-items li img {
-    width: 16px; /* Зменшено розмір */
+    width: 16px;
     height: 16px;
     object-fit: contain;
 }
@@ -179,7 +179,7 @@ h1 {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Зменшено gap */
+    gap: 10px;
 }
 
 .game-mode {
@@ -189,32 +189,32 @@ h1 {
 }
 
 #gameModeName {
-    font-size: 1.2rem; /* Зменшено розмір */
+    font-size: 1.2rem;
     font-weight: bold;
     color: #333;
 }
 
 .map-info {
     color: #666;
-    font-size: 0.85rem; /* Зменшено розмір */
+    font-size: 0.85rem;
 }
 
 .event-row {
     display: flex;
-    flex-wrap: wrap; /* Додано для адаптивності */
+    flex-wrap: wrap;
     align-items: flex-start;
-    gap: 8px; /* Зменшено gap */
+    gap: 8px;
 }
 
 .map-container {
-    padding: 8px; /* Зменшено padding */
+    padding: 8px;
     background: #f5f5f5;
     border-radius: 8px;
     flex-shrink: 0;
 }
 
 .map-thumbnail {
-    width: 120px; /* Зменшено розмір */
+    width: 120px;
     height: auto;
     object-fit: cover;
     border-radius: 4px;
@@ -222,23 +222,22 @@ h1 {
 }
 
 .map-thumbnail:hover {
-    transform: scale(1.1); /* Зменшено масштаб для компактності */
+    transform: scale(1.1);
 }
 
 .brawler-stats {
     display: flex;
-    flex-wrap: wrap; /* Додано для адаптивності */
     justify-content: space-between;
-    gap: 8px; /* Зменшено gap */
+    gap: 8px;
     flex-grow: 1;
 }
 
 .stats-column {
     display: flex;
     flex-direction: column;
-    gap: 6px; /* Зменшено gap */
+    gap: 6px;
     width: 48%;
-    min-width: 120px; /* Додано для уникнення надмірного стискання */
+    min-width: 100px; /* Зменшено min-width для компактності */
 }
 
 .stat-row {
@@ -248,7 +247,7 @@ h1 {
 }
 
 .stat-brawler-img-container {
-    width: 24px; /* Зменшено розмір */
+    width: 24px;
     height: 24px;
     padding: 4px;
     background: #f5f5f5;
@@ -268,15 +267,15 @@ h1 {
 .stat-winrate {
     font-family: 'Lilita One', sans-serif;
     background: #f5f5f5;
-    padding: 3px 6px; /* Зменшено padding */
+    padding: 3px 6px;
     border-radius: 3px;
-    font-size: 0.8rem; /* Зменшено розмір */
+    font-size: 0.8rem;
 }
 
 .event-details {
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Зменшено gap */
+    gap: 8px;
     padding: 8px 0;
     border-top: 1px solid #eee;
 }
@@ -285,7 +284,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    flex-wrap: wrap; /* Додано для адаптивності */
+    flex-wrap: wrap;
     gap: 8px;
 }
 
@@ -307,30 +306,30 @@ h1 {
 
 .label {
     color: #666;
-    font-size: 0.85rem; /* Зменшено розмір */
+    font-size: 0.85rem;
 }
 
 #timeUntilStart,
 #eventDate {
-    font-size: 0.85rem; /* Зменшено розмір */
+    font-size: 0.85rem;
     color: #333;
 }
 
 .banner-container {
-    padding: 8px; /* Зменшено padding */
+    padding: 8px;
     background: #f5f5f5;
     border-radius: 8px;
 }
 
 .game-mode-banner {
     width: 100%;
-    max-height: 100px; /* Зменшено для компактності */
+    max-height: 100px;
     object-fit: cover;
     border-radius: 4px;
 }
 
 .timer-icon {
-    width: 16px; /* Зменшено розмір */
+    width: 16px;
     height: 16px;
 }
 
@@ -340,13 +339,13 @@ h1 {
     justify-content: center;
     align-items: center;
     padding: 5px;
-    gap: 8px; /* Зменшено gap */
+    gap: 8px;
     position: relative;
-    margin-top: -20px; /* Зменшено відступ */
+    margin-top: -20px;
 }
 
 .spike-icon {
-    width: 70px; /* Зменшено розмір */
+    width: 70px;
     height: auto;
     object-fit: contain;
     transform: translateY(-8px);
@@ -358,12 +357,12 @@ h1 {
 }
 
 .new-icon {
-    width: 80px; /* Зменшено розмір */
+    width: 80px;
     height: auto;
 }
 
 .copyright-text {
-    font-size: 0.9rem; /* Зменшено розмір */
+    font-size: 0.9rem;
     color: #333;
     text-align: center;
     transform: translateY(-10px);
@@ -402,13 +401,16 @@ h1 {
         width: 100px;
     }
 
-    .stats-column {
-        width: 100%; /* Змінено для компактності */
-        min-width: 0;
+    .brawler-stats {
+        display: flex; /* Залишаємо горизонтальне розташування */
+        justify-content: space-between;
+        gap: 6px; /* Зменшено gap для компактності */
+        flex-wrap: nowrap; /* Запобігаємо перенесенню */
     }
 
-    .brawler-stats {
-        flex-direction: column; /* Вертикальне розташування на малих екранах */
+    .stats-column {
+        width: 48%; /* Залишаємо два стовпці */
+        min-width: 80px; /* Зменшено для компактності */
     }
 
     .stat-brawler-img-container {
@@ -423,7 +425,8 @@ h1 {
     }
 
     .stat-winrate {
-        font-size: 0.75rem;
+        font-size: 0.7rem; /* Зменшено розмір шрифту */
+        padding: 2px 4px;
     }
 
     .banner-container {
@@ -475,7 +478,7 @@ h1 {
 
 @media screen and (max-width: 400px) {
     .event-row {
-        flex-direction: column; /* Вертикальне розташування для дуже малих екранів */
+        flex-direction: column;
         gap: 5px;
     }
 
@@ -485,6 +488,18 @@ h1 {
 
     .map-thumbnail {
         width: 80px;
+    }
+
+    .brawler-stats {
+        display: flex; /* Залишаємо горизонтальне розташування */
+        justify-content: space-between;
+        gap: 4px; /* Ще більше зменшено gap */
+        flex-wrap: nowrap;
+    }
+
+    .stats-column {
+        width: 48%;
+        min-width: 70px; /* Зменшено для дуже малих екранів */
     }
 
     .stat-brawler-img-container {
@@ -499,8 +514,8 @@ h1 {
     }
 
     .stat-winrate {
-        font-size: 0.7rem;
-        padding: 2px 4px;
+        font-size: 0.65rem;
+        padding: 2px 3px;
     }
 
     .banner-container {
