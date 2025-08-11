@@ -4,32 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Next Events</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/YnYy3n4/1682.png">
+
+    <!-- External Styles -->
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="coming.css">
-    <link rel="icon" type="image/png" href="https://i.ibb.co/YnYy3n4/1682.png">
+
+    <!-- External Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.45/moment-timezone-with-data.min.js"></script>
-    <style>
-        .event-details {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            padding: 10px 0;
-        }
-        .detail-item {
-            display: flex;
-            align-items: flex-start;
-        }
-        .detail-item .label {
-            margin-right: 10px;
-        }
-        .event-details-row {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -156,7 +142,8 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Application Script -->
     <script src="up.js"></script>
 </body>
 </html>
