@@ -1,3 +1,4 @@
+/* coming.css */
 
 body {
     font-family: 'Lilita One', sans-serif;
@@ -59,10 +60,10 @@ body {
     content: "";
     position: absolute;
     background-color: white;
-    height: calc(100% - 10px);
-    width: calc(100% - 10px);
-    top: 5px;
-    left: 5px;
+    height: calc(100% - 10px); /* Віднімаємо 2 * 5px для межі */
+    width: calc(100% - 10px); /* Віднімаємо 2 * 5px для межі */
+    top: 5px; /* Половина товщини межі */
+    left: 5px; /* Половина товщини межі */
     border-radius: 15px;
     z-index: -1;
 }
@@ -74,6 +75,7 @@ h1 {
     line-height: 1.2;
 }
 
+/* Решта стилів залишається без змін */
 .event-content {
     width: 100%;
     flex-grow: 1;
@@ -314,45 +316,15 @@ h1 {
 
 .stat-winrate {
     font-family: 'Lilita One', sans-serif;
+    background: #f5f5f5;
     padding: 4px 8px;
     border-radius: 3px;
     font-size: 14px;
-    height: 30px;
-    overflow: hidden;
-    display: inline-block;
-}
-
-.flip {
-    height: 30px;
-    overflow: hidden;
-}
-
-.flip > div > div {
-    color: #333;
-    padding: 4px 8px;
-    height: 30px;
-    margin-bottom: 30px;
-    display: inline-block;
-    background: #f5f5f5;
-    text-align: center;
-    width: 100%;
-}
-
-.flip div:first-child {
-    animation: show 5s linear infinite;
-}
-
-@keyframes show {
-    0% { margin-top: -60px; }
-    5% { margin-top: -30px; }
-    50% { margin-top: -30px; }
-    55% { margin-top: 0px; }
-    100% { margin-top: 0px; }
 }
 
 .event-details {
     display: flex;
-    justify-content: space kalpbetween;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     padding: 10px 0;
@@ -523,17 +495,6 @@ h1 {
 
     .stat-winrate {
         font-size: 12px;
-        height: 25px;
-    }
-
-    .flip {
-        height: 25px;
-    }
-
-    .flip > div > div {
-        height: 25px;
-        margin-bottom: 25px;
-        padding: 3px 6px;
     }
 
     .banner-container {
@@ -621,17 +582,6 @@ h1 {
     .stat-winrate {
         padding: 2px 4px;
         font-size: 10px;
-        height: 20px;
-    }
-
-    .flip {
-        height: 20px;
-    }
-
-    .flip > div > div {
-        height: 20px;
-        margin-bottom: 20px;
-        padding: 2px 4px;
     }
 
     .banner-container {
