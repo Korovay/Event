@@ -1,37 +1,28 @@
 const colors = ['#DAF7A6', '#DAA520', '#FFE4E1', '#B0C4DE', '#DA70D6'];
 let eventsData = [];
 
-// Функція для отримання часу в Україні (UTC+2 взимку, UTC+3 влітку)
+// Функція для отримання поточного часу в Україні
 function getUkraineTime() {
-    const now = new Date();
-    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
-    const year = now.getFullYear();
-    const dstStart = new Date(Date.UTC(year, 2, 31 - ((5 + new Date(year, 2, 31).getDay()) % 7), 1, 0, 0));
-    const dstEnd = new Date(Date.UTC(year, 9, 31 - ((5 + new Date(year, 9, 31).getDay()) % 7), 1, 0, 0));
-    const ukraineOffset = (now >= dstStart && now < dstEnd ? 3 : 2) * 60 * 60 * 1000;
-    return new Date(utcTime + ukraineOffset);
+    return moment().tz('Europe/Kyiv');
 }
 
+// Функція для обчислення часу до початку події
 function getTimeUntilStart(startTime) {
     const now = getUkraineTime();
-    const start = new Date(startTime);
-    const diff = start - now;
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const start = moment(startTime).tz('Europe/Kyiv');
+    const diff = start.diff(now);
+    const duration = moment.duration(diff);
+    const hours = Math.floor(duration.asHours());
+    const minutes = Math.floor(duration.asMinutes()) % 60;
     return `${hours}h ${minutes}min`;
 }
 
+// Функція для форматування дати
 function formatDate(date) {
-    return new Date(date).toLocaleString('uk-UA', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        timeZone: 'Europe/Kyiv'
-    });
+    return moment(date).tz('Europe/Kyiv').format('DD.MM.YYYY HH:mm');
 }
 
+// Функція для форматування статистики бравлерів
 function formatBrawlerStats(stats) {
     if (!stats || stats.length === 0) return 'Немає даних по winRate';
 
@@ -68,6 +59,7 @@ function formatBrawlerStats(stats) {
     `;
 }
 
+// Функція для оновлення відображення події
 function updateEventDisplay(event, color) {
     document.getElementById('gameModeName').textContent = event.map.gameMode.name;
     document.getElementById('mapName').textContent = event.map.name;
@@ -79,6 +71,7 @@ function updateEventDisplay(event, color) {
     document.querySelector('.event-card').style.border = `5px solid ${color}`;
 }
 
+// Функція для отримання подій з API
 async function fetchEvents() {
     try {
         const response = await axios.get('https://api.brawlify.com/v1/events');
@@ -88,7 +81,7 @@ async function fetchEvents() {
         console.log('Ключі в data:', Object.keys(data));
 
         const now = getUkraineTime();
-        console.log('Поточний час в Україні:', now.toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' }));
+        console.log('Поточний час в Україні:', now.format('DD.MM.YYYY HH:mm:ss'));
 
         const upcomingEvents = data.upcoming || [];
 
@@ -98,9 +91,9 @@ async function fetchEvents() {
         }
 
         const filteredUpcomingEvents = upcomingEvents.filter(event => {
-            const start = new Date(event.startTime);
-            const isUpcoming = start > now;
-            console.log(`Подія: ${event.map.gameMode.name} - ${event.map.name}, Start: ${start.toISOString()}, Now: ${now.toISOString()}, Майбутня: ${isUpcoming}`);
+            const start = moment(event.startTime).tz('Europe/Kyiv');
+            const isUpcoming = start.isAfter(now);
+            console.log(`Подія: ${event.map.gameMode.name} - ${event.map.name}, Start: ${start.format()}, Now: ${now.format()}, Майбутня: ${isUpcoming}`);
             return isUpcoming;
         });
 
@@ -120,6 +113,7 @@ async function fetchEvents() {
     }
 }
 
+// Функція для оновлення випадаючого списку подій
 function updateEventSelect(selectList, events) {
     console.log('Оновлюємо select з подіями:', events.length);
     console.log('Події, передані в select:', JSON.stringify(events, null, 2));
@@ -144,6 +138,7 @@ function updateEventSelect(selectList, events) {
     console.log('Згенерований HTML для select:', optionsHTML);
 }
 
+// Функція для завантаження подій
 async function loadEvents() {
     const selectList = document.getElementById('eventSelectList');
     const selectSelected = document.querySelector('.select-selected');
@@ -179,12 +174,12 @@ async function loadEvents() {
         `;
     }
 
-    // Toggle dropdown visibility
+    // Перемикання видимості випадаючого списку
     selectSelected.addEventListener('click', () => {
         selectList.style.display = selectList.style.display === 'none' ? 'block' : 'none';
     });
 
-    // Handle option selection
+    // Обробка вибору опції
     selectList.addEventListener('click', (e) => {
         const li = e.target.closest('li');
         if (!li) return;
@@ -227,13 +222,14 @@ async function loadEvents() {
         }
     });
 
-    // Close dropdown when clicking outside
+    // Закриття випадаючого списку при кліку поза ним
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.custom-select')) {
             selectList.style.display = 'none';
         }
     });
 
+    // Періодичне оновлення подій
     setInterval(async () => {
         const previousEventsCount = eventsData.length;
         eventsData = await fetchEvents();
@@ -297,4 +293,5 @@ async function loadEvents() {
     }, 60000);
 }
 
+// Завантаження подій після завантаження DOM
 document.addEventListener('DOMContentLoaded', loadEvents);
