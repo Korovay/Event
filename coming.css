@@ -553,7 +553,7 @@ h1 {
 
     .copyright-text {
         font-size: 0.7rem;
-        transform: translateY(-6px);
+        transform: translateY(1px);
     }
 
     .spike-icon-container {
