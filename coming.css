@@ -365,7 +365,7 @@ h1 {
     font-size: 0.9rem;
     color: #333;
     text-align: center;
-    transform: translateY(-10px);
+    transform: translateY(5px);
 }
 
 /* Медіа-запити для адаптивності */
